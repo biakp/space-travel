@@ -2,29 +2,29 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateUserService } from "../service/CreateUserService"; // Import the service to handle user creation
 
 class CreateUserController {
-  async handle(request: FastifyRequest, reply: FastifyReply) {
-    const { fullName, email, password } = request.body as {
-      fullName: string;
-      email: string;
-      password: string;
-    };
+    async handle(request: FastifyRequest, reply: FastifyReply) {
+        const { fullName, email, password } = request.body as {
+            fullName: string;
+            email: string;
+            password: string;
+        };
 
-    if (!fullName || !email || !password) {
-      reply.status(400).send({ message: "All fields are required" });
+        if (!fullName || !email || !password) {
+            reply.status(400).send({ message: "All fields are required" });
+        }
+
+        try {
+            const createUserService = new CreateUserService(); // Instantiate the service to handle user creation
+            const user = await createUserService.execute({
+                fullName,
+                email,
+                password,
+            });
+
+            reply.send(user);
+        } catch (error: any) {
+            return reply.status(400).send({ erro: true, message: error.message });
+        }
     }
-
-    try {
-      const createUserService = new CreateUserService(); // Instantiate the service to handle user creation
-      const user = await createUserService.execute({
-        fullName,
-        email,
-        password,
-      });
-
-      reply.send(user);
-    } catch (error: any) {
-      return reply.status(400).send({ erro: true, message: error.message });
-    }
-  }
 }
 export { CreateUserController };
