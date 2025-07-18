@@ -1,15 +1,38 @@
-import prismaClient from "../prisma";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import prismaClient from '../prisma'
+import bcrypt from 'bcrypt'
+import { AuthUtils } from '../utils/AuthUtils'
 
 interface UserProps {
-    email: string;
-    fullName: string;
-    password: string;
+    email: string
+    password: string
 }
 
-class CreateUserService {
-    async execute({ email, fullName, password }: UserProps) { }
- }
+class LoginUserService {
+    async execute({ email, password }: UserProps) {
 
-export { CreateUserService };
+        const user = await prismaClient.user.findFirst({ // Find the user by email
+            where: {
+                email: email
+            }
+        })
+
+        if (!user) {
+            throw new Error("User not found")
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password) // Compare the provided password with the stored hashed password
+        if (!isPasswordValid) {
+            throw new Error("Invalid credentials")
+        }
+
+        const accessToken = AuthUtils.generateAccessToken(user.id) // Generate an access token for the user
+
+        return {
+            erro: false,
+            message: "Successful login!",
+            user: { fullName: user.fullName, email: user.email },
+            accessToken
+        }
+    }
+}
+export { LoginUserService }
