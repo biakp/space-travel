@@ -4,6 +4,7 @@ import { LoginUserController } from "./controller/Auth/LoginUserController";
 import { authenticateToken } from "./middleware/authenticateToken";
 import { GetUserController } from "./controller/Auth/GetUserController";
 import { AddPlanetController } from "./controller/Planets/AddPlanetController";
+import { GetAllPlanetsController } from "./controller/Planets/GetAllPlanetsController";
 
 // This function will be called in server.ts to register the routes with Fastify
 export async function routes(fastify: FastifyInstance) {
@@ -33,4 +34,9 @@ export async function routes(fastify: FastifyInstance) {
         "/add-registered-planet",{ preHandler: authenticateToken }, async (request: FastifyRequest, reply: FastifyReply) => {
             return new AddPlanetController().handle(request, reply);
         })
+
+    // Register the route to get all planets, protected by authentication middleware
+    fastify.get('/get-all-planets', { preHandler: authenticateToken }, async (request: FastifyRequest, reply: FastifyReply) => {
+        return new GetAllPlanetsController().handle(request, reply)
+    })
 }
