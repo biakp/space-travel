@@ -20,16 +20,16 @@ model User {
   password         String
   created_at       DateTime?          @default(now())
   uptaded_at       DateTime?          @default(now())
-  RegisteredMoment RegisteredPlace[]
+  RegisteredPlanet RegisteredPlanet[]
 
   @@map("user")
 }
 
-model RegisteredPlace {
+model RegisteredPlanet {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   title           String
   story           String
-  visitedLocation String[] @default([])
+  visitedPlanet   String[] @default([])
   isFavorite      Boolean  @default(false)
   userId          String   @db.ObjectId
   createdOn       DateTime @default(now())
@@ -38,5 +38,5 @@ model RegisteredPlace {
 
   User User @relation(fields: [userId], references: [id])
 
-  @@map("registered-places")
+  @@map("registered-planets")
 }

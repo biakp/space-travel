@@ -12,8 +12,8 @@ app.register(routes);
 app.register(cors);
 
 app.register(fastifyStatic, {
-    root: path.join(__dirname, '..', 'uploads'),
-    prefix: '/uploads'
+  root: path.join(__dirname, '..', 'uploads'),
+  prefix: '/uploads'
 })
 
 export default app;
