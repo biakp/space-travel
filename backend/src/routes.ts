@@ -6,6 +6,7 @@ import { GetUserController } from "./controller/Auth/GetUserController";
 import { AddPlanetController } from "./controller/Planets/AddPlanetController";
 import { GetAllPlanetsController } from "./controller/Planets/GetAllPlanetsController";
 import { SearchPlanetsController } from "./controller/Planets/SearchPlanetsController";
+import { UpdatePlanetController } from "./controller/Planets/UpdatePlanetController";
 
 // This function will be called in server.ts to register the routes with Fastify
 export async function routes(fastify: FastifyInstance) {
@@ -45,4 +46,10 @@ export async function routes(fastify: FastifyInstance) {
     fastify.get('/search-planets', { preHandler: authenticateToken }, async (request: FastifyRequest, reply: FastifyReply) => {
         return new SearchPlanetsController().handle(request, reply)
     })
+
+    // Register the route to update a planet
+    fastify.put('/update-planet/:id', { preHandler: authenticateToken }, async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UpdatePlanetController().handle(request, reply)
+    })
+
 }
