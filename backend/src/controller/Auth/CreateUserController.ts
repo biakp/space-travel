@@ -1,30 +1,45 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { CreateUserService } from "../../service/Auth/CreateUserService"; // Import the service to handle user creation
+import { CreateUserService } from "../../service/Auth/CreateUserService";
+import { createUserSchema } from "../../schemas/generate.schema";
 
 class CreateUserController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const { fullName, email, password } = request.body as {
-            fullName: string;
-            email: string;
-            password: string;
-        };
-
-        if (!fullName || !email || !password) {
-            reply.status(400).send({ message: "All fields are required" });
-        }
-
         try {
-            const createUserService = new CreateUserService(); // Instantiate the service to handle user creation
+            // Manual validation with Zod
+            const validatedData = createUserSchema.parse(request.body);
+            
+            const { fullName, email, password } = validatedData;
+
+            const createUserService = new CreateUserService();
+
             const user = await createUserService.execute({
                 fullName,
                 email,
                 password,
             });
 
-            reply.send(user);
+            return reply.send(user);
         } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message });
+            // If the error is a Zod validation error, return a 400 status with details
+            if (error.name === 'ZodError') {
+                return reply.status(400).send({
+                    error: "Validation Error",
+                    message: "Invalid data",
+                    details: error.errors.map((err: any) => ({
+                        field: err.path.join('.'),
+                        message: err.message
+                    }))
+                });
+            }
+
+            // Other errors (e.g., service errors)
+            console.error("Error creating user:", error);
+            return reply.status(400).send({ 
+                erro: true, 
+                message: error.message || "Internal server error" 
+            });
         }
     }
 }
+
 export { CreateUserController };

@@ -1,33 +1,24 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { UpdatePlanetService } from "../../service/Planets/UpdatePlanetService";
-import { updatePlanetSchema, planetParamsSchema } from "../../schemas/generate.schema";
+import { DeletePlanetService } from "../../service/Planets/DeletePlanetService";
+import { planetParamsSchema } from "../../schemas/generate.schema";
 
-class UpdatePlanetController {
+class DeletePlanetController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
         try {
-            // Validation of the request parameters
+            // Validate the request parameters using Zod schema
             const validatedParams = planetParamsSchema.parse(request.params);
             const { id } = validatedParams;
-
-            // Validation of the request body
-            const validatedData = updatePlanetSchema.parse(request.body);
-            const { title, story, visitedPlanet, imageUrl, visitedDate } = validatedData;
             
             const { userId } = request.user as { userId: string };
 
-            const updatePlanetService = new UpdatePlanetService();
+            const deletePlanetService = new DeletePlanetService();
 
-            const planet = await updatePlanetService.execute({
+            const deletePlanet = await deletePlanetService.execute({
                 id,
-                title,
-                story,
-                visitedPlanet,
                 user: { userId },
-                imageUrl: imageUrl ?? "",
-                visitedDate,
             });
 
-            return reply.send(planet);
+            return reply.send(deletePlanet);
         } catch (error: any) {
             // If it's a Zod validation error
             if (error.name === 'ZodError') {
@@ -41,14 +32,14 @@ class UpdatePlanetController {
                 });
             }
 
-            // Other errors
-            console.error("Error updating planet:", error);
+            // Outros erros
+            console.error("Error deleting planet:", error);
             return reply.status(500).send({ 
                 error: "Internal Server Error", 
-                message: error.message || "Internal server error" 
+                message: error.message || "Internal Server Error" 
             });
         }
     }
 }
 
-export { UpdatePlanetController };
+export { DeletePlanetController };

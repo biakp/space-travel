@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma";
 
-interface RegisteredPlanetProps {
+interface RegisteredPlanetProps { // Defining the properties for the registered planet
     title: string;
     story: string;
     visitedPlanet: string[];
@@ -9,9 +9,9 @@ interface RegisteredPlanetProps {
     visitedDate: string;
 }
 
-type UpdatedPlanetProps = RegisteredPlanetProps & { id: string }
+type UpdatedPlanetProps = RegisteredPlanetProps & { id: string } // Extending the properties to include an id for the planet
 
-class UpdatePlanetService {
+class UpdatePlanetService { // Service to update a planet's details
     async execute({
         id,
         title,
@@ -21,9 +21,9 @@ class UpdatePlanetService {
         imageUrl,
         visitedDate,
     }: UpdatedPlanetProps) {
-        const parsedVisitedDate = new Date(visitedDate);
+        const parsedVisitedDate = new Date(visitedDate); // Parsing the visited date to a Date object
 
-        const registeredPlanet = await prismaClient.registeredPlanet.findFirst({
+        const registeredPlanet = await prismaClient.registeredPlanet.findFirst({ // Finding the registered planet by id and userId
             where: {
                 id: id,
                 userId: user.userId
@@ -36,7 +36,7 @@ class UpdatePlanetService {
 
         const placeholderImageUrl = 'http://localhost:8000/uploads/bingusplanet.avif'; // Default image URL if none is provided
 
-        const updatedregisteredPlanet = await prismaClient.registeredPlanet.update({
+        const updatedregisteredPlanet = await prismaClient.registeredPlanet.update({ //
             where: {
                 id: id
             },

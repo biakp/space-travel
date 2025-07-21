@@ -1,23 +1,44 @@
-import { FastifyReply, FastifyRequest } from "fastify"
-import { LoginUserService } from "../../service/Auth/LoginUserService"
+import { FastifyReply, FastifyRequest } from "fastify";
+import { LoginUserService } from "../../service/Auth/LoginUserService";
+import { loginUserSchema } from "../../schemas/generate.schema";
 
 class LoginUserController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const { email, password } = request.body as { email: string, password: string } // Extract email and password from the request body
-
-        if (!email || !password) {
-            reply.status(400).send({ message: "All fields are required" })
-        }
-
         try {
-            const loginUserService = new LoginUserService()
-            const login = await loginUserService.execute({ email, password }) // Call the service to handle user login
+            // Validate request body with Zod schema
+            const validatedData = loginUserSchema.parse(request.body);
 
-            reply.send(login);
+            const { email, password } = validatedData;
+
+            const loginUserService = new LoginUserService();
+
+            const login = await loginUserService.execute({
+                email,
+                password,
+            });
+
+            return reply.send(login);
         } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message }) // Handle errors during login
+            // If the error is a Zod validation error, we handle it specifically
+            if (error.name === 'ZodError') {
+                return reply.status(400).send({
+                    error: "Validation Error",
+                    message: "Dados inválidos",
+                    details: error.errors.map((err: any) => ({
+                        field: err.path.join('.'),
+                        message: err.message
+                    }))
+                });
+            }
+
+            // Other errors
+            console.error("Error during login:", error);
+            return reply.status(500).send({
+                error: "Internal Server Error",
+                message: error.message || "Internal Server Error"
+            });
         }
     }
-
 }
-export { LoginUserController }
+
+export { LoginUserController };

@@ -1,43 +1,49 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { AddPlanetService } from "../../service/Planets/AddPlanetService";
-
-interface RegisteredPlanet {
-    title: string;
-    story: string;
-    visitedPlanet: string[];
-    imageUrl: string;
-    visitedDate: string;
-}
+import { addPlanetSchema } from "../../schemas/generate.schema";
 
 class AddPlanetController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const { title, story, visitedPlanet, imageUrl, visitedDate } =
-            request.body as RegisteredPlanet;
-        const { user } = request; // Extract the user from the request
-
-        if (!title || !story || !visitedPlanet || !visitedDate) {
-            reply.status(400).send({ message: "All fields are required" });
-        }
-
-        if (!user) {
-            return reply.status(400).send({ error: true, message: "User does not exists!" })
-        }
-
         try {
-            const addPlanetService = new AddPlanetService(); // Instantiate the service to handle adding a planet
-            const registeredPlanet = await addPlanetService.execute({
+            // Validation of the request body
+            const validatedData = addPlanetSchema.parse(request.body);
+            
+            const { title, story, visitedPlanet, imageUrl, visitedDate } = validatedData;
+            const { userId } = request.user as { userId: string };
+
+            const addPlanetService = new AddPlanetService();
+
+            const planet = await addPlanetService.execute({
                 title,
                 story,
                 visitedPlanet,
-                user,
-                imageUrl,
+                user: { userId },
+                imageUrl: imageUrl ?? "",
                 visitedDate,
             });
 
-            reply.status(201).send(registeredPlanet); // Send the created planet as a response
+            return reply.send(planet);
         } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message }); // Handle errors during planet addition
+            // If it's a Zod validation error
+            if (error.name === 'ZodError') {
+                return reply.status(400).send({
+                    error: "Validation Error",
+                    message: "Invalid data",
+                    details: error.errors.map((err: any) => ({
+                        field: err.path.join('.'),
+                        message: err.message
+                    }))
+                });
+            }
+
+            // Other errors
+            console.error("Error adding planet:", error);
+            return reply.status(500).send({ 
+                error: "Internal Server Error", 
+                message: error.message || "Internal server error" 
+            });
         }
     }
 }
+
 export { AddPlanetController };

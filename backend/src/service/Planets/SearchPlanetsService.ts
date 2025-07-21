@@ -21,7 +21,8 @@ class SearchPlanetsService {
             }
         });
 
-        return searchedPlanets
+        return searchedPlanets;
     }
 }
+
 export { SearchPlanetsService };
