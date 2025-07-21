@@ -10,6 +10,7 @@ import { UpdatePlanetController } from "./controller/Planets/UpdatePlanetControl
 import { DeletePlanetController } from "./controller/Planets/DeletePlanetController";
 import { GenerateAIController } from "./controller/AI/GenerateAIController";
 import { UploadImageController } from "./controller/Upload/UploadImageController";
+import { DeleteImageController } from "./controller/Upload/DeleteImageController";
 import { upload } from "./config/multer";
 
 // This function will be called in server.ts to register the routes with Fastify
@@ -90,6 +91,14 @@ export async function routes(fastify: FastifyInstance) {
         "/upload-image", {preHandler: upload.single('image')},
         async (request: FastifyRequest, reply: FastifyReply) => {
             return new UploadImageController().handle(request, reply);
+        }
+    );
+
+    // Register the route to delete an image
+    fastify.delete(
+        "/delete-image", {preHandler: upload.single("image")},
+        async (request: FastifyRequest, reply: FastifyReply) => {
+            return new DeleteImageController().handle(request, reply);
         }
     );
 
