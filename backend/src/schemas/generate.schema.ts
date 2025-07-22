@@ -8,12 +8,12 @@ export const generateSchema = z.object({
 // Auth Schemas
 export const createUserSchema = z.object({
   fullName: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email format"),
+  email: z.email("Invalid email format"),
   password: z.string().min(6, "Password must be at least 6 characters long")
 })
 
 export const loginUserSchema = z.object({
-  email: z.string().email("Invalid email format"),
+  email: z.email("Invalid email format"),
   password: z.string().min(1, "Password is required")
 })
 
@@ -22,16 +22,16 @@ export const addPlanetSchema = z.object({
   title: z.string().min(1, "Title is required"),
   story: z.string().min(1, "Story is required"),
   visitedPlanet: z.array(z.string()).min(1, "At least one visited planet is required"),
-  imageUrl: z.string().url().optional(),
-  visitedDate: z.string().min(1, "Visited date is required")
+  imageUrl: z.url().optional(),
+  visitedDate: z.iso.date()
 })
 
 export const updatePlanetSchema = z.object({
   title: z.string().min(1, "Title is required"),
   story: z.string().min(1, "Story is required"),
   visitedPlanet: z.array(z.string()).min(1, "At least one visited planet is required"),
-  imageUrl: z.string().url().optional(),
-  visitedDate: z.string().min(1, "Visited date is required")
+  imageUrl: z.url().optional(),
+  visitedDate: z.iso.date()
 })
 
 export const planetParamsSchema = z.object({
