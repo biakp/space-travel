@@ -12,6 +12,7 @@ import { GenerateAIController } from "./controller/AI/GenerateAIController";
 import { UploadImageController } from "./controller/Upload/UploadImageController";
 import { DeleteImageController } from "./controller/Upload/DeleteImageController";
 import { UpdateFavoritePlanetController } from "./controller/Planets/UpdateFavoritePlanetController";
+import { DateFilterPlanetsController } from "./controller/Planets/DateFilterPlanetsController";
 import { upload } from "./config/multer";
 
 // This function will be called in server.ts to register the routes with Fastify
@@ -106,6 +107,11 @@ export async function routes(fastify: FastifyInstance) {
     // Register the route to update the favorite status of a planet
     fastify.put('/update-favorite/:id', { preHandler: authenticateToken }, async (request: FastifyRequest, reply: FastifyReply) => {
         return new UpdateFavoritePlanetController().handle(request, reply)
+    })
+
+    // Register the route to filter registered planets by date
+    fastify.get('/registered-planet/filter', { preHandler: authenticateToken }, async (request: FastifyRequest, reply: FastifyReply) => {
+        return new DateFilterPlanetsController().handle(request, reply)
     })
 
     // Register the route to generate IA content
