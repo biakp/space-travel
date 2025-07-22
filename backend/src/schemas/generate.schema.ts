@@ -42,6 +42,10 @@ export const searchPlanetsSchema = z.object({
   query: z.string().min(1, "Query parameter is required"),
 })
 
+export const updateFavoritePlanetSchema = z.object({
+  isFavorite: z.boolean()
+})
+
 // Type exports
 export type GenerateSchema = z.infer<typeof generateSchema>
 export type CreateUserSchema = z.infer<typeof createUserSchema>
@@ -50,3 +54,4 @@ export type AddPlanetSchema = z.infer<typeof addPlanetSchema>
 export type UpdatePlanetSchema = z.infer<typeof updatePlanetSchema>
 export type PlanetParamsSchema = z.infer<typeof planetParamsSchema>
 export type SearchPlanetsSchema = z.infer<typeof searchPlanetsSchema>
+export type UpdateFavoritePlanetSchema = z.infer<typeof updateFavoritePlanetSchema>
