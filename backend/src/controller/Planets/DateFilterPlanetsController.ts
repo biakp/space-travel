@@ -9,14 +9,20 @@ class DateFilterPlanetsController {
         if (!user) {
             return reply.status(400).send({ error: true, message: "User does not exists!" })
         }
+        if (!startDate || !endDate) {
+            return reply.status(400).send({ error: true, message: "Start date and end date are required!" })
+        }
+        if (new Date(startDate) > new Date(endDate)) {
+            return reply.status(400).send({ error: true, message: "Start date cannot be after end date!" })
+        }
         
         try {
             const dateFilterPlanetsService = new DateFilterPlanetsService()
             const dateFiltered = await dateFilterPlanetsService.execute({ endDate, startDate, user })
 
-            reply.status(201).send({ planet: dateFiltered })
+            reply.status(201).send({ planets: dateFiltered })
         } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message })
+            return reply.status(400).send({ error: true, message: error.message })
         }
     }
 
