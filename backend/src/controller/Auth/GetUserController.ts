@@ -16,8 +16,8 @@ class GetUserController {
             const createUser = await createUserService.execute({ user })
 
             reply.status(200).send(createUser)
-        } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message })
+        } catch (error: unknown) {
+            return reply.status(400).send({ erro: true, message: (error as Error).message })
         }
     }
 }

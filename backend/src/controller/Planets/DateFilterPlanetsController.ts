@@ -21,8 +21,8 @@ class DateFilterPlanetsController {
             const dateFiltered = await dateFilterPlanetsService.execute({ endDate, startDate, user })
 
             reply.status(201).send({ planets: dateFiltered })
-        } catch (error: any) {
-            return reply.status(400).send({ error: true, message: error.message })
+        } catch (error: unknown) {
+            return reply.status(400).send({ erro: true, message: (error as Error).message })
         }
     }
 

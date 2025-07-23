@@ -1,0 +1,25 @@
+{
+  "name": "space-travel",
+  "version": "1.0.0",
+  "description": "This project is a study exercise focused on building a space travel-themed application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "check": "eslint . --ext .ts",
+    "check:fix": "eslint . --ext .ts --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.31.0",
+    "eslint": "^9.31.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
+    "husky": "^8.0.0",
+    "typescript-eslint": "^8.38.0"
+  }
+}

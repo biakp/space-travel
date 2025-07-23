@@ -13,7 +13,7 @@ export async function authenticateToken(request: FastifyRequest, reply: FastifyR
         }
 
         request.user = decoded
-    } catch (error) {
+    } catch {
         return reply.status(400).send({ message: "Invalid token" })
     }
 }

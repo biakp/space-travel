@@ -5,10 +5,7 @@ import { addPlanetSchema } from "../../schemas/generate.schema";
 class AddPlanetController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
         try {
-            // Validation of the request body
-            const validatedData = addPlanetSchema.parse(request.body);
-            
-            const { title, story, visitedPlanet, imageUrl, visitedDate } = validatedData;
+            const { title, story, visitedPlanet, imageUrl, visitedDate } = addPlanetSchema.parse(request.body);
             const { userId } = request.user as { userId: string };
 
             const addPlanetService = new AddPlanetService();
@@ -23,24 +20,13 @@ class AddPlanetController {
             });
 
             return reply.send(planet);
-        } catch (error: any) {
-            // If it's a Zod validation error
-            if (error.name === 'ZodError') {
-                return reply.status(400).send({
-                    error: "Validation Error",
-                    message: "Invalid data",
-                    details: error.errors.map((err: any) => ({
-                        field: err.path.join('.'),
-                        message: err.message
-                    }))
-                });
-            }
-
-            // Other errors
+        } catch (error: unknown) {
             console.error("Error adding planet:", error);
-            return reply.status(500).send({ 
-                error: "Internal Server Error", 
-                message: error.message || "Internal server error" 
+
+            const message = error instanceof Error ? error.message : "An unexpected error occurred";
+            return reply.status(500).send({
+                error: "Internal Server Error",
+                message,
             });
         }
     }

@@ -5,14 +5,11 @@ import { updatePlanetSchema, planetParamsSchema } from "../../schemas/generate.s
 class UpdatePlanetController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
         try {
-            // Validation of the request parameters
-            const validatedParams = planetParamsSchema.parse(request.params);
-            const { id } = validatedParams;
+            // Zod validation for request parameters and body
+            // This will throw an error if validation fails
+            const { id } = planetParamsSchema.parse(request.params);
+            const { title, story, visitedPlanet, imageUrl, visitedDate } = updatePlanetSchema.parse(request.body);
 
-            // Validation of the request body
-            const validatedData = updatePlanetSchema.parse(request.body);
-            const { title, story, visitedPlanet, imageUrl, visitedDate } = validatedData;
-            
             const { userId } = request.user as { userId: string };
 
             const updatePlanetService = new UpdatePlanetService();
@@ -28,24 +25,13 @@ class UpdatePlanetController {
             });
 
             return reply.send(planet);
-        } catch (error: any) {
-            // If it's a Zod validation error
-            if (error.name === 'ZodError') {
-                return reply.status(400).send({
-                    error: "Validation Error",
-                    message: "Invalid data",
-                    details: error.errors.map((err: any) => ({
-                        field: err.path.join('.'),
-                        message: err.message
-                    }))
-                });
-            }
+        } catch (error: unknown) {
 
-            // Other errors
             console.error("Error updating planet:", error);
-            return reply.status(500).send({ 
-                error: "Internal Server Error", 
-                message: error.message || "Internal server error" 
+            const message = error instanceof Error ? error.message : "Internal server error";
+            return reply.status(500).send({
+                error: "Internal Server Error",
+                message,
             });
         }
     }

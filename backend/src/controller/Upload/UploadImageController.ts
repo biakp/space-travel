@@ -1,22 +1,30 @@
-import { FastifyReply, FastifyRequest } from "fastify"
+import { FastifyReply, FastifyRequest } from "fastify";
 import { UploadImageService } from "../../service/Upload/UploadImageService";
+
+interface UploadedFile {
+    filename: string;
+    mimetype: string;
+    size: number;
+}
 
 class UploadImageController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const file = (request as any).file
+        const file = (request as FastifyRequest & { file: UploadedFile }).file;
 
-        if (!file.filename) {
-            reply.status(400).send({ message: "No file uploaded" })
+        if (!file?.filename) {
+            return reply.status(400).send({ message: "No file uploaded" });
         }
 
         try {
-            const uploadImageService = new UploadImageService()
-            const uploadImage = await uploadImageService.execute({ file })
+            const uploadImageService = new UploadImageService();
+            const uploadImage = await uploadImageService.execute({ file });
 
-            reply.status(201).send({ uploadImage })
-        } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message })
+            return reply.status(201).send({ uploadImage });
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : "Unexpected error";
+            return reply.status(400).send({ erro: true, message });
         }
     }
 }
-export { UploadImageController }
+
+export { UploadImageController };

@@ -14,8 +14,8 @@ class DeleteImageController {
             const deleted = await deleteImageService.execute({ imageUrl })
 
             return reply.status(200).send(deleted)
-        } catch (error: any) {
-            return reply.status(400).send({ erro: true, message: error.message })
+        } catch (error: unknown) {
+            return reply.status(400).send({ erro: true, message: error instanceof Error ? error.message : "Unexpected error" })
         }
     }
 }
