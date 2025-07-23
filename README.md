@@ -12,7 +12,7 @@ This project is a study exercise focused on building a space travel-themed appli
 
 ### Front end
 
-- React
+- React.js
 - TypeScript
 - Vite
 - TailwindCSS
