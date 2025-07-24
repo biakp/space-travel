@@ -1,7 +1,7 @@
 export const Home = () => {
   return (
-    <div>
+    <main>
       <h1>Welcome to the Space Travel Hub</h1>
-    </div>
+    </main>
   );
 };
