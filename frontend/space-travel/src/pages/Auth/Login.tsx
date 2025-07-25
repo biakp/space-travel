@@ -1,3 +1,5 @@
+import { NasaImage } from "../../components/nasaImage";
+
 export const Login = () => {
   return (
     <div className="grid h-screen text-gray-900 md:grid-cols-2">
@@ -83,27 +85,9 @@ export const Login = () => {
         </div>
       </div>
 
-      {/* Right: Image */}
-      <div className="relative hidden overflow-hidden md:block">
-        <img
-          src="/testimonial.jpg"
-          alt="Testimonial"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute bottom-12 left-12 max-w-sm text-white">
-          <div className="mb-2 flex gap-1 text-yellow-400">★★★★★</div>
-          <p className="text-xl font-semibold leading-tight">
-            Our experience with Space Travel was out of this world! The
-            registering process was seamless, and the customer service was
-            exceptional.
-          </p>
-          <p className="mt-4 text-sm">
-            <strong>Bingus Klemen</strong>
-            <br />
-            Space Enthusiast
-          </p>
-        </div>
+      {/* Right: NASA Image */}
+      <div className="relative hidden overflow-hidden md:block p-6">
+        <NasaImage fallback="/fallback.jpg" />
       </div>
     </div>
   );

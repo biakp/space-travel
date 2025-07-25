@@ -13,6 +13,7 @@ import { UploadImageController } from "./controller/Upload/UploadImageController
 import { DeleteImageController } from "./controller/Upload/DeleteImageController";
 import { UpdateFavoritePlanetController } from "./controller/Planets/UpdateFavoritePlanetController";
 import { DateFilterPlanetsController } from "./controller/Planets/DateFilterPlanetsController";
+import { NasaImageController } from "./controller/Nasa/NasaImageController";
 import { upload } from "./config/multer";
 
 // This function will be called in server.ts to register the routes with Fastify
@@ -119,6 +120,14 @@ export async function routes(fastify: FastifyInstance) {
         "/ai",
         async (request: FastifyRequest, reply: FastifyReply) => {
             return new GenerateAIController().handle(request, reply);
+        }
+    );
+
+    // Register the route to get NASA image of the day
+    fastify.get(
+        "/nasa-image",
+        async (request: FastifyRequest, reply: FastifyReply) => {
+            return new NasaImageController().handle(request, reply);
         }
     );
 }
