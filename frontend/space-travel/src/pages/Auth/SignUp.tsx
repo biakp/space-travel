@@ -1,4 +1,4 @@
-import { NasaImage } from "../../components/nasaImage";
+import { NasaImage } from "../../components/NasaImage";
 
 export const SignUp = () => {
   return (
@@ -119,7 +119,7 @@ export const SignUp = () => {
       </div>
 
       {/* Right: NASA Image */}
-      <div className="relative hidden overflow-hidden md:block p-6">
+      <div className="relative hidden overflow-hidden p-6 md:block">
         <NasaImage fallback="/fallback.jpg" />
       </div>
     </div>

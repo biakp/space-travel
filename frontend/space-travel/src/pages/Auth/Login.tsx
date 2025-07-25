@@ -1,6 +1,15 @@
-import { NasaImage } from "../../components/nasaImage";
+import { useState } from "react";
+import { NasaImage } from "../../components/NasaImage";
+import { PasswordInput } from "../../components/Input/PasswordInput";
 
 export const Login = () => {
+  const [password, setPassword] = useState<string>("");
+
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault();
+    //TODO: Handle login logic here
+  };
+
   return (
     <div className="grid h-screen text-gray-900 md:grid-cols-2">
       {/* Left: Form */}
@@ -23,7 +32,7 @@ export const Login = () => {
           </p>
         </div>
 
-        <form className="mb-4 space-y-4 text-sm">
+        <form onSubmit={handleLogin} className="mb-4 space-y-4 text-sm">
           <div>
             <label className="mb-1 block font-medium" htmlFor="email">
               Email address *
@@ -39,11 +48,11 @@ export const Login = () => {
             <label className="mb-1 block font-medium" htmlFor="password">
               Password *
             </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full rounded-lg border border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="••••••••"
+            <PasswordInput
+              value={password}
+              onChange={({ target }) => {
+                setPassword(target.value);
+              }}
             />
             <div className="mt-1 text-right">
               <a
@@ -86,7 +95,7 @@ export const Login = () => {
       </div>
 
       {/* Right: NASA Image */}
-      <div className="relative hidden overflow-hidden md:block p-6">
+      <div className="relative hidden overflow-hidden p-6 md:block">
         <NasaImage fallback="/fallback.jpg" />
       </div>
     </div>

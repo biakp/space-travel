@@ -1,4 +1,4 @@
-import { useNasaImage } from "../hooks/UseNasaImage";
+import { useNasaImage } from "../hooks/useNasaImage";
 
 interface NasaImageProps {
   fallback?: string;
