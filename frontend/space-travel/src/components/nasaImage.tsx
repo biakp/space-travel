@@ -4,13 +4,16 @@ interface NasaImageProps {
   fallback?: string;
 }
 
-export function NasaImage({ fallback = "/fallback.jpg" }: NasaImageProps) {
+export function NasaImage({
+  fallback = "../public/images/fallback.jpg",
+}: NasaImageProps) {
   const { data, loading } = useNasaImage();
 
   if (loading) {
     return <div className={`animate-pulse bg-gray-800`} />;
   }
 
+  // If data is null, show an error message
   if (!data) {
     return (
       <div
@@ -23,15 +26,29 @@ export function NasaImage({ fallback = "/fallback.jpg" }: NasaImageProps) {
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-lg">
-      <img
-        src={data.url}
-        alt={data.title}
-        onError={(e) => {
-          (e.target as HTMLImageElement).src = fallback;
-        }}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 bg-black/40"></div>
+      {data.media_type === "image" ? (
+        <img
+          src={data.url}
+          alt={data.title}
+          onError={(e) => {
+            const img = e.target as HTMLImageElement;
+            if (!img.dataset.fallback) {
+              console.warn("Image failed to load, switching to fallback");
+              img.src = fallback;
+              img.dataset.fallback = "true";
+            }
+          }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : (
+        <img
+          src={fallback}
+          alt={data.title}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+
+      <div className="absolute inset-0 bg-black/40" />
       <div className="absolute bottom-12 left-12 right-10 max-w-full text-white">
         <p className="text-sm font-light italic leading-tight">
           {data.explanation}

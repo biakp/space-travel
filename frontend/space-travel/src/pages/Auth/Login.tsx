@@ -96,7 +96,7 @@ export const Login = () => {
 
       {/* Right: NASA Image */}
       <div className="relative hidden overflow-hidden p-6 md:block">
-        <NasaImage fallback="/fallback.jpg" />
+        <NasaImage/>
       </div>
     </div>
   );

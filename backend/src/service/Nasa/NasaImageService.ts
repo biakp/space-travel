@@ -14,6 +14,7 @@ class NasaImageService {
 
         return {
             title: response.data.title,
+            media_type: response.data.media_type,
             url: response.data.url,
             explanation: response.data.explanation,
             date: response.data.date,
