@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 interface PasswordInputProps {
   value: string;
@@ -8,7 +9,10 @@ interface PasswordInputProps {
 }
 
 export const PasswordInput = ({ value, onChange }: PasswordInputProps) => {
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const location = useLocation();
+  const isSignUpPage = location.pathname === "/signup";
+
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(isSignUpPage);
 
   return (
     <div className="relative">

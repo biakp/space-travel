@@ -1,6 +1,67 @@
 import { NasaImage } from "../../components/NasaImage";
+import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../api/axiosInstance";
+import { validateEmail, validatePassword } from "../../utils/helper";
+import axios from "axios";
+import { PasswordInput } from "../../components/Input/PasswordInput";
 
 export const SignUp = () => {
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e: FormEvent) => {
+    e.preventDefault();
+    
+    if (!name) {
+      setError("Please enter your full name.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError("Please enter a valid password.");
+      return;
+    }
+
+    setError("");
+
+    try {
+      const response = await axiosInstance.post("/login", {
+        email: email,
+        password: password,
+      });
+
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
+        navigate("/home"); // Redirect to homepage
+      } else {
+        setError("Login failed. Please try again.");
+        return;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setError(error.response.data.message);
+        } else {
+          setError("An unexpected error ocurred. Please try again.");
+        }
+      }
+    }
+  };
+
   return (
     <div className="grid h-screen text-gray-900 md:grid-cols-2">
       {/* Left: Form */}
@@ -9,12 +70,14 @@ export const SignUp = () => {
           <div></div>
           <p>
             Already have an account?{" "}
-            <a
-              href="/login"
-              className="font-medium text-indigo-500 hover:underline"
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+              className="cursor-pointer font-medium text-indigo-500 hover:underline"
             >
               Log in
-            </a>
+            </button>
           </p>
         </div>
 
@@ -57,7 +120,7 @@ export const SignUp = () => {
 
         <div className="mb-4 text-center text-sm text-gray-400">OR</div>
 
-        <form className="space-y-4 text-sm">
+        <form onSubmit={handleSignUp} className="space-y-4 text-sm">
           <div>
             <label className="mb-1 block font-medium" htmlFor="name">
               Full name *
@@ -65,6 +128,10 @@ export const SignUp = () => {
             <input
               type="text"
               id="name"
+              value={name}
+              onChange={({ target }) => {
+                setName(target.value);
+              }}
               className="w-full rounded-lg border border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Bingus Klemen"
             />
@@ -76,6 +143,10 @@ export const SignUp = () => {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={({ target }) => {
+                setEmail(target.value);
+              }}
               className="w-full rounded-lg border border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="youremail@website.com"
             />
@@ -84,16 +155,18 @@ export const SignUp = () => {
             <label className="mb-1 block font-medium" htmlFor="password">
               Password *
             </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full rounded-lg border border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="••••••••"
+            <PasswordInput
+              value={password}
+              onChange={({ target }) => {
+                setPassword(target.value);
+              }}
             />
             <p className="mt-1 text-xs text-gray-500">
               Must contain 1 uppercase letter, 1 number, min 8 characters
             </p>
           </div>
+
+          <p>{error && <span className="text-red-800">{error}</span>}</p>
 
           <div className="flex items-start">
             <input type="checkbox" className="mr-2 mt-1" defaultChecked />
@@ -120,7 +193,7 @@ export const SignUp = () => {
 
       {/* Right: NASA Image */}
       <div className="relative hidden overflow-hidden p-6 md:block">
-        <NasaImage fallback="/fallback.jpg" />
+        <NasaImage />
       </div>
     </div>
   );

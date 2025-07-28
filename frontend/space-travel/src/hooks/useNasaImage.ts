@@ -23,7 +23,7 @@ export function useNasaImage() {
 
         // Check if the response data has the expected structure
         const imageData = response.data?.image || response.data;
-        
+
         if (imageData && imageData.media_type) {
           setData(imageData);
         } else {

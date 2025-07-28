@@ -1,19 +1,90 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { NasaImage } from "../../components/NasaImage";
 import { PasswordInput } from "../../components/Input/PasswordInput";
+import { validateEmail, validatePassword } from "../../utils/helper";
+import axiosInstance from "../../api/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Login = () => {
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
-  const handleLogin = (event: React.FormEvent) => {
-    event.preventDefault();
-    //TODO: Handle login logic here
+  // Using useNavigate from react-router-dom for navigation
+  // This allows us to programmatically navigate after successful login
+  const navigate = useNavigate();
+
+  // Function to handle login
+  // It validates the email and password, then sends a POST request to the login endpoint
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError("Wrong Password. Please try again.");
+      return;
+    }
+    
+    setError("");
+    // If validation passes, proceed with the login request
+    // Sending login request to the backend
+    // If successful, it stores the access token in localStorage and redirects to the home page
+    try {
+      const response = await axiosInstance.post("/login", {
+        email: email,
+        password: password,
+      });
+
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
+        navigate("/home"); // Redirect to homepage
+      } else {
+        setError("Login failed. Please try again.");
+        return;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setError(error.response.data.message);
+        } else {
+          setError("An unexpected error ocurred. Please try again.");
+        }
+      }
+    }
+    // Clear the input fields after login attempt
+    // This ensures that the fields are reset for the next login attempt
+    setEmail("");
+    setPassword("");
+    setError("");
   };
 
   return (
     <div className="grid h-screen text-gray-900 md:grid-cols-2">
       {/* Left: Form */}
       <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24">
+        <div className="mb-8 flex items-center justify-between text-sm">
+          <div></div>
+          <p>
+            Don`&apos;`t have an account?{" "}
+            <button
+              onClick={() => {
+                navigate("/signup");
+              }}
+              className="cursor-pointer font-medium text-indigo-500 hover:underline"
+            >
+              Sign up
+            </button>
+          </p>
+        </div>
         <div className="mb-6 text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50">
             <svg
@@ -40,6 +111,10 @@ export const Login = () => {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={({ target }) => {
+                setEmail(target.value);
+              }}
               className="w-full rounded-lg border border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="youremail@website.com"
             />
@@ -63,6 +138,8 @@ export const Login = () => {
               </a>
             </div>
           </div>
+
+          <p>{error && <span className="text-red-800">{error}</span>}</p>
 
           <button
             type="submit"
@@ -96,7 +173,7 @@ export const Login = () => {
 
       {/* Right: NASA Image */}
       <div className="relative hidden overflow-hidden p-6 md:block">
-        <NasaImage/>
+        <NasaImage />
       </div>
     </div>
   );
