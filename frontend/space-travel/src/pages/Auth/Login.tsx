@@ -29,7 +29,7 @@ export const Login = () => {
       setError("Wrong Password. Please try again.");
       return;
     }
-    
+
     setError("");
     // If validation passes, proceed with the login request
     // Sending login request to the backend

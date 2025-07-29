@@ -16,7 +16,7 @@ export const SignUp = () => {
 
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!name) {
       setError("Please enter your full name.");
       return;
