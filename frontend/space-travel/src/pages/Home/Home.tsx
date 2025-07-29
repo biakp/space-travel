@@ -2,10 +2,20 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Navbar } from "../../components/Navbar";
+
+interface UserInfoProps {
+  created_at: string;
+  email: string;
+  fullName: string;
+  id: string;
+  password: string;
+  updated_at: string;
+}
 
 export const Home = () => {
   // State to hold user information
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<UserInfoProps | null>(null);
   const navigate = useNavigate();
 
   // Fetch user information when the component mounts
@@ -14,7 +24,7 @@ export const Home = () => {
       const response = await axiosInstance.get("/get-user");
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
-        console.log(userInfo)
+        console.log(userInfo);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -33,9 +43,5 @@ export const Home = () => {
     getUserInfo();
   }, []);
 
-  return (
-    <main>
-      <h1>Welcome to the Space Travel Hub</h1>
-    </main>
-  );
+  return <Navbar userInfo={userInfo} />;
 };
