@@ -14,9 +14,21 @@ interface UserInfoProps {
   updated_at: string;
 }
 
+interface PlanetProps {
+  id: string;
+  imageUrl: string;
+  isFavorite: boolean;
+  story: string;
+  title: string;
+  userId: string;
+  visitedDate: string;
+  visitedPlanet: string[];
+}
+
 export const Home = () => {
   // State to hold user information
   const [userInfo, setUserInfo] = useState<UserInfoProps | null>(null);
+  const [userPlanets, setUserPlanets] = useState<PlanetProps[]>([]);
   const navigate = useNavigate();
 
   // Fetch user information when the component mounts
@@ -25,7 +37,6 @@ export const Home = () => {
       const response = await axiosInstance.get("/get-user");
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
-        console.log(userInfo);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -37,11 +48,31 @@ export const Home = () => {
     }
   };
 
+  // Fetch all planets for the user
+  const getAllPlanets = async () => {
+    try {
+      const response = await axiosInstance.get("/get-all-planets");
+
+      setUserPlanets(response.data || []);
+    } catch (error) {
+      console.error("Error in getAllPlanets:", error);
+      setUserPlanets([]);
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 400) {
+          console.error("Bad request - please check your input");
+        } else {
+          console.error("Error fetching planets:", error.message);
+        }
+      }
+    }
+  };
+
   // Call getUserInfo when the component mounts
   // This ensures that user information is fetched when the Home page is accessed
   // Using useEffect to handle side effects in functional components
   useEffect(() => {
     getUserInfo();
+    getAllPlanets();
   }, []);
 
   return (
@@ -50,12 +81,28 @@ export const Home = () => {
       <main className="container mx-auto px-6 py-12">
         <div className="flex gap-8">
           <section className="flex-1">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <TravelCard />
-              <TravelCard />
-              <TravelCard />
-              <TravelCard />
-            </div>
+            {userPlanets.length === 0 || !userInfo ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-gray-500">
+                  No planets found. Start your journey!
+                </p>
+              </div>
+            ) : (
+              <div className="mb-8">
+                <h2 className="mb-6 text-2xl font-semibold text-gray-800">
+                  Your Space Journeys
+                </h2>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {userPlanets.map((planet) => (
+                    <TravelCard
+                      key={planet.id}
+                      planet={planet}
+                      user={userInfo}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
 
           <aside className="w-80 flex-shrink-0">
