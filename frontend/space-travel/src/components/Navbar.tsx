@@ -1,4 +1,3 @@
-import Logo from "../assets/logo.png";
 import ProfileInfo from "../components/Card/ProfileInfo";
 import { useNavigate } from "react-router-dom";
 
@@ -28,11 +27,31 @@ export function Navbar({ userInfo }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-2 drop-shadow">
-      <img src={Logo} alt="space-travel-logo" className="h-11" />
+    <nav className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-6 shadow-2xl backdrop-blur-sm">
+      <div className="flex items-center space-x-4">
+        <div className="hidden md:block">
+          <h1 className="text-2xl font-bold tracking-wide text-white">
+            Space Travel
+          </h1>
+          <p className="text-sm text-indigo-100">Explore the Universe</p>
+        </div>
+      </div>
 
       {showProfileInfo && (
-        <ProfileInfo userInfo={userInfo} onLogout={handleLogout} />
+        <div className="flex items-center space-x-4">
+          <div className="hidden items-center space-x-6 text-white/90 lg:flex">
+            {/* TO-DO: Navigation Links */}
+            <button className="cursor-pointer font-medium transition-colors duration-200 hover:text-white">
+              Dashboard
+            </button>
+            <button className="cursor-pointer font-medium transition-colors duration-200 hover:text-white">
+              Favorites
+            </button>
+          </div>
+          <div className="rounded-xl border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-sm">
+            <ProfileInfo userInfo={userInfo} onLogout={handleLogout} />
+          </div>
+        </div>
       )}
     </nav>
   );
