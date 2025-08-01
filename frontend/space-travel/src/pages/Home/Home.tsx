@@ -67,6 +67,35 @@ export const Home = () => {
     }
   };
 
+  const updateFavorite = async (planet: PlanetProps) => {
+    const planetId = planet.id;
+    try {
+      // Make API call to update favorite status
+      await axiosInstance.put(`/update-favorite/${planetId}`, {
+        isFavorite: !planet.isFavorite,
+      });
+
+      // Update local state
+      setUserPlanets((prevPlanets) =>
+        prevPlanets.map((p) =>
+          p.id === planetId ? { ...p, isFavorite: !p.isFavorite } : p,
+        ),
+      );
+
+      // Reload all planets to get updated order (favorites at top)
+      await getAllPlanets();
+      
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 400) {
+          console.error("Bad request");
+        } else {
+          console.error("Error updating favorite", error.message);
+        }
+      }
+    }
+  };
+
   // Call getUserInfo when the component mounts
   // This ensures that user information is fetched when the Home page is accessed
   // Using useEffect to handle side effects in functional components
@@ -92,12 +121,13 @@ export const Home = () => {
                 <h2 className="mb-6 text-2xl font-semibold text-gray-800">
                   Your Space Journeys
                 </h2>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {userPlanets.map((planet) => (
                     <TravelCard
                       key={planet.id}
                       planet={planet}
                       user={userInfo}
+                      onUpdateFavorite={() => updateFavorite(planet)}
                     />
                   ))}
                 </div>

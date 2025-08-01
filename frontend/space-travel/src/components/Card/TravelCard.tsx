@@ -24,9 +24,11 @@ interface PlanetProps {
 interface TravelCardProps {
   planet: PlanetProps;
   user: UserInfoProps;
+  onUpdateFavorite: () => Promise<void>;
 }
 
-function TravelCard({ planet, user }: TravelCardProps) {
+function TravelCard({ planet, user, onUpdateFavorite }: TravelCardProps) {
+
   return (
     <>
       <article
@@ -40,25 +42,22 @@ function TravelCard({ planet, user }: TravelCardProps) {
           <img
             src={planet.imageUrl || "../public/images/fallback.jpg"}
             alt="Space Travel"
-            className="h-58 w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+            className="h-68 w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
         </div>
 
         <button
           className="absolute right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/40 bg-white/90 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-xl active:scale-95"
-          onClick={() => {
-            // TO-DO: Implement favorite functionality
-          }}
+          onClick={onUpdateFavorite}
         >
           <FaHeart
-            className="text-pink-500 transition-all duration-300 hover:text-pink-600 group-hover:scale-110"
+            className={` ${planet.isFavorite ? "text-pink-500" : "text-gray-400"} transition-all duration-300 hover:text-pink-600 group-hover:scale-110`}
             size={18}
             title="Add to Favorites"
             aria-label="Add to Favorites"
           />
         </button>
-        {/* TO-DO: Get Card information */}
         <div className="mt-6 space-y-3">
           <header className="space-y-2">
             <h6 className="text-xl font-bold text-gray-800 transition-colors duration-300 group-hover:text-indigo-700">

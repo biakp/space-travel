@@ -27,7 +27,7 @@ export function Navbar({ userInfo }: NavbarProps) {
   };
 
   return (
-    <nav className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-6 shadow-2xl backdrop-blur-sm">
+    <nav className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 py-2 px-6 shadow-2xl backdrop-blur-sm">
       <div className="flex items-center space-x-4">
         <div className="hidden md:block">
           <h1 className="text-2xl font-bold tracking-wide text-white">
