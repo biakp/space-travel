@@ -1,39 +1,39 @@
 import { useState } from "react";
-import { FaRegEye } from "react-icons/fa";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 interface PasswordInputProps {
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 }
 
-export const PasswordInput = ({ value, onChange }: PasswordInputProps) => {
-  const location = useLocation();
-  const isSignUpPage = location.pathname === "/signup";
+export const PasswordInput = ({
+  value,
+  onChange,
+  placeholder = "Enter your password...",
+}: PasswordInputProps) => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(isSignUpPage);
+  const toggleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
 
   return (
     <div className="relative">
       <input
+        type={isShowPassword ? "text" : "password"}
         value={value}
         onChange={onChange}
-        type={isShowPassword ? "text" : "password"}
-        placeholder="Enter your password"
-        className="w-full rounded-lg border border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 pr-12 text-white placeholder-white/40 backdrop-blur-md transition-all duration-300 focus:border-pink-400/30 focus:bg-white/10 focus:outline-none"
+        placeholder={placeholder}
       />
-      {isShowPassword ? (
-        <FaRegEye
-          onClick={() => setIsShowPassword(false)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 transform cursor-pointer"
-        />
-      ) : (
-        <FaRegEyeSlash
-          onClick={() => setIsShowPassword(true)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 transform cursor-pointer"
-        />
-      )}
+      <button
+        type="button"
+        className="absolute right-4 top-1/2 -translate-y-1/2 transform text-white/60 transition-colors duration-200 hover:text-white"
+        onClick={toggleShowPassword}
+      >
+        {isShowPassword ? <FaRegEyeSlash size={16} /> : <FaRegEye size={16} />}
+      </button>
     </div>
   );
 };

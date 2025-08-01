@@ -27,32 +27,44 @@ export function Navbar({ userInfo }: NavbarProps) {
   };
 
   return (
-    <nav className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 py-2 px-6 shadow-2xl backdrop-blur-sm">
-      <div className="flex items-center space-x-4">
-        <div className="hidden md:block">
-          <h1 className="text-2xl font-bold tracking-wide text-white">
-            Space Travel
-          </h1>
-          <p className="text-sm text-indigo-100">Explore the Universe</p>
-        </div>
-      </div>
+    <nav className="relative border-b border-white/10 bg-white/5 px-6 py-4 backdrop-blur-2xl">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/5 via-purple-400/5 to-pink-400/5"></div>
 
-      {showProfileInfo && (
+      <div className="relative z-10 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="hidden items-center space-x-6 text-white/90 lg:flex">
-            {/* TO-DO: Navigation Links */}
-            <button className="cursor-pointer font-medium transition-colors duration-200 hover:text-white">
-              Dashboard
-            </button>
-            <button className="cursor-pointer font-medium transition-colors duration-200 hover:text-white">
-              Favorites
-            </button>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-sm">
-            <ProfileInfo userInfo={userInfo} onLogout={handleLogout} />
+          <div className="flex items-center space-x-4">
+            <div className="hidden md:block">
+              <h1 className="bg-gradient-to-r from-cyan-400 via-white to-purple-400 bg-clip-text text-3xl font-extralight text-transparent">
+                Stellar Vault
+              </h1>
+              <div className="h-px w-24 bg-gradient-to-r from-cyan-400/50 via-purple-400/50 to-transparent"></div>
+            </div>
           </div>
         </div>
-      )}
+
+        {showProfileInfo && (
+          <div className="flex items-center space-x-6">
+            <div className="hidden items-center space-x-4 lg:flex">
+              <button className="group relative cursor-pointer px-6 py-2 font-light text-white/70 transition-all duration-300 hover:text-white">
+                <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100"></div>
+                <span className="relative text-sm">Dashboard</span>
+              </button>
+              <button className="group relative cursor-pointer px-6 py-2 font-light text-white/70 transition-all duration-300 hover:text-white">
+                <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100"></div>
+                <span className="relative text-sm">Favorites</span>
+              </button>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/10 to-purple-400/10 blur"></div>
+              <div className="relative rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-xl">
+                <ProfileInfo userInfo={userInfo} onLogout={handleLogout} />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
