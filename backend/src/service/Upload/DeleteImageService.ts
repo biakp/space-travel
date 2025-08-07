@@ -6,7 +6,7 @@ class DeleteImageService {
         const fileName = path.basename(imageUrl)
 
         // Check if the file is the default image
-        if (fileName === 'bingusplanet.avif') {
+        if (fileName === 'bingusplanet.png') {
             return { message: 'Image default has been preserved' }
         }
 

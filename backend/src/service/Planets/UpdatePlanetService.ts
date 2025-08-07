@@ -3,7 +3,7 @@ import prismaClient from "../../prisma";
 interface RegisteredPlanetProps { // Defining the properties for the registered planet
     title: string;
     story: string;
-    visitedPlanet: string[];
+    visitedPlanet: string;
     user: { userId: string };
     imageUrl: string;
     visitedDate: string;
@@ -34,7 +34,7 @@ class UpdatePlanetService { // Service to update a planet's details
             throw new Error("Register not found!")
         }
 
-        const placeholderImageUrl = 'http://localhost:8000/uploads/bingusplanet.avif'; // Default image URL if none is provided
+        const placeholderImageUrl = 'http://localhost:8000/uploads/bingusplanet.png'; // Default image URL if none is provided
 
         const updatedregisteredPlanet = await prismaClient.registeredPlanet.update({ //
             where: {

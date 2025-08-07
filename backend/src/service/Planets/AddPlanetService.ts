@@ -3,7 +3,7 @@ import prismaClient from "../../prisma";
 interface RegisteredPlanetProps {
     title: string;
     story: string;
-    visitedPlanet: string[];
+    visitedPlanet: string;
     user: { userId: string };
     imageUrl: string;
     visitedDate: string;
@@ -20,7 +20,7 @@ class AddPlanetService {
     }: RegisteredPlanetProps) {
         const parsedVisitedDate = new Date(visitedDate);
 
-        const placeholderImageUrl = 'http://localhost:8000/uploads/bingusplanet.avif'; // Default image URL if none is provided
+        const placeholderImageUrl = 'http://localhost:8000/uploads/bingusplanet.png'; // Default image URL if none is provided
 
         const registeredPlanet = await prismaClient.registeredPlanet.create({
             data: {

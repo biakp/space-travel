@@ -7,6 +7,7 @@ import TravelCard from "../../components/Card/TravelCard";
 import { ToastContainer, toast } from "react-toastify";
 import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
+import AddEditTravelForm from "./AddEditTravelForm";
 
 interface UserInfoProps {
   created_at: string;
@@ -19,18 +20,18 @@ interface UserInfoProps {
 
 interface PlanetProps {
   id: string;
-  imageUrl: string;
+  imageUrl: string | null;
   isFavorite: boolean;
   story: string;
   title: string;
   userId: string;
   visitedDate: string;
-  visitedPlanet: string[];
+  visitedPlanet: string;
 }
 
 interface ModalProps {
   isShow: boolean;
-  type: string;
+  type: "add" | "edit";
   data: PlanetProps | null;
 }
 
@@ -199,7 +200,7 @@ export const Home = () => {
                 </div>
               )}
             </section>
-
+            {/* TO-DO: Create component for the aside profile */}
             <aside className="w-80 flex-shrink-0">
               <div className="relative">
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/10 via-purple-400/5 to-pink-400/10 blur-xl"></div>
@@ -301,12 +302,8 @@ export const Home = () => {
           className="fixed inset-0 flex items-center justify-center p-4"
           overlayClassName="fixed inset-0 bg-black/60 backdrop-blur-md z-[9999]"
           style={{
-            overlay: {
-              zIndex: 9999,
-            },
-            content: {
-              zIndex: 10000,
-            },
+            overlay: { zIndex: 9999 },
+            content: { zIndex: 10000 },
           }}
         >
           <div className="relative z-[10001] w-full max-w-2xl">
@@ -339,7 +336,7 @@ export const Home = () => {
                         data: null,
                       })
                     }
-                    className="group relative cursor-pointer z-[10002] h-10 w-10 transition-all duration-300 hover:scale-110"
+                    className="group relative z-[10002] h-10 w-10 transition-all duration-300 hover:scale-110"
                   >
                     <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100"></div>
                     <div className="relative flex h-full w-full items-center justify-center text-white/60 transition-colors duration-200 hover:text-white">
@@ -361,94 +358,23 @@ export const Home = () => {
                 </div>
               </div>
 
-              {/* Content */}
+              {/* Content - Scrollable */}
               <div className="custom-scrollbar max-h-[60vh] overflow-y-auto px-8 py-6">
-                <form className="space-y-6">
-                  {/* Planet Title */}
-                  <div className="group relative">
-                    <label className="mb-2 block text-sm font-light uppercase tracking-widest text-cyan-300/80">
-                      Destination Name
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/10 to-blue-400/10 opacity-0 blur transition-opacity duration-500 group-focus-within:opacity-100"></div>
-                      <input
-                        type="text"
-                        className="relative w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 backdrop-blur-md transition-all duration-300 focus:border-cyan-400/30 focus:bg-white/10 focus:outline-none"
-                        placeholder="Enter the name of your cosmic destination..."
-                      />
-                    </div>
-                  </div>
-
-                  {/* Date */}
-                  <div className="group relative">
-                    <label className="mb-2 block text-sm font-light uppercase tracking-widest text-purple-300/80">
-                      Journey Date
-                    </label>
-                    <div className="relative">
-                      <div className="absolute cursor-pointer inset-0 rounded-2xl bg-gradient-to-r from-purple-400/10 to-pink-400/10 opacity-0 blur transition-opacity duration-500 group-focus-within:opacity-100"></div>
-                      <input
-                        type="date"
-                        className="relative w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white backdrop-blur-md transition-all duration-300 focus:border-purple-400/30 focus:bg-white/10 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Story */}
-                  <div className="group relative">
-                    <label className="mb-2 block text-sm font-light uppercase tracking-widest text-pink-300/80">
-                      Mission Log
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-400/10 to-cyan-400/10 opacity-0 blur transition-opacity duration-500 group-focus-within:opacity-100"></div>
-                      <textarea
-                        rows={4}
-                        className="relative w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 backdrop-blur-md transition-all duration-300 focus:border-pink-400/30 focus:bg-white/10 focus:outline-none"
-                        placeholder="Describe your extraordinary experience among the stars..."
-                      />
-                    </div>
-                  </div>
-
-                  {/* Image Upload */}
-                  <div className="group relative">
-                    <label className="mb-2 block text-sm font-light uppercase tracking-widest text-emerald-300/80">
-                      Visual Evidence
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400/10 to-cyan-400/10 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100"></div>
-                      <label className="relative block cursor-pointer rounded-2xl border-2 border-dashed border-white/20 bg-white/5 p-8 text-center backdrop-blur-md transition-colors duration-300 hover:border-emerald-400/30">
-                        <div className="mb-4">
-                          <svg
-                            className="mx-auto h-12 w-12 text-white/40"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </div>
-                        <p className="mb-2 font-light text-white/60">
-                          Upload cosmic imagery
-                        </p>
-                        <p className="text-sm text-white/40">
-                          PNG, JPG up to 10MB
-                        </p>
-                        <input
-                          type="file"
-                          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                          accept="image/*"
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </form>
+                <AddEditTravelForm
+                  type={openAddEditModal.type}
+                  travelInfo={openAddEditModal.data}
+                  getAllPlanets={() => getAllPlanets()}
+                  onClose={() =>
+                    setOpenAddEditModal({
+                      isShow: false,
+                      type: "add",
+                      data: null,
+                    })
+                  }
+                />
               </div>
 
-              {/* Footer */}
+              {/* Footer - Fixed buttons */}
               <div className="from-white/2 border-t border-white/10 bg-gradient-to-r to-white/5 px-8 py-6">
                 <div className="flex items-center justify-end space-x-4">
                   <button
@@ -459,7 +385,7 @@ export const Home = () => {
                         data: null,
                       })
                     }
-                    className="group relative cursor-pointer px-6 py-3 font-light text-white/70 transition-all duration-300 hover:text-white"
+                    className="group relative px-6 py-3 font-light text-white/70 transition-all duration-300 hover:text-white"
                   >
                     <div className="absolute inset-0 rounded-xl border border-white/10 bg-white/5 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100"></div>
                     <span className="relative">Cancel Mission</span>
@@ -467,7 +393,8 @@ export const Home = () => {
 
                   <button
                     type="submit"
-                    className="group relative cursor-pointer px-8 py-3 font-light text-white transition-all duration-500 hover:scale-[1.02]"
+                    form="travel-form"
+                    className="group relative cursor-pointer px-8 py-3 font-light text-white transition-all duration-500 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-80 transition-opacity duration-300 group-hover:opacity-100"></div>
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100"></div>

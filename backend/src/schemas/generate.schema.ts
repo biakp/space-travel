@@ -45,9 +45,7 @@ export const loginUserSchema = z.object({
 export const addPlanetSchema = z.object({
   title: trimmedString(1, 100, "Title"),
   story: trimmedString(10, 2000, "Story"),
-  visitedPlanet: z.array(z.string().trim())
-    .nonempty("At least one visited planet is required")
-    .max(10, "Maximum 10 planets allowed"),
+  visitedPlanet: trimmedString(1, 100, "Visited Planet"),
   imageUrl: z.string().url("Invalid image URL").optional(),
   visitedDate: visitedDateSchema
 })

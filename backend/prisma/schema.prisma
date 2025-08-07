@@ -29,11 +29,11 @@ model RegisteredPlanet {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   title           String
   story           String
-  visitedPlanet   String[] @default([])
+  visitedPlanet   String
   isFavorite      Boolean  @default(false)
   userId          String   @db.ObjectId
   createdOn       DateTime @default(now())
-  imageUrl        String
+  imageUrl        String?
   visitedDate     DateTime
 
   User User @relation(fields: [userId], references: [id])

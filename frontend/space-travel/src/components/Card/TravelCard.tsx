@@ -12,13 +12,13 @@ interface UserInfoProps {
 
 interface PlanetProps {
   id: string;
-  imageUrl: string;
+  imageUrl: string | null;
   isFavorite: boolean;
   story: string;
   title: string;
   userId: string;
   visitedDate: string;
-  visitedPlanet: string[];
+  visitedPlanet: string;
 }
 
 interface TravelCardProps {
@@ -107,7 +107,7 @@ function TravelCard({ planet, user, onUpdateFavorite }: TravelCardProps) {
                   <div className="relative flex items-center space-x-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-md">
                     <GrMapLocation className="text-xs text-purple-400" />
                     <span className="text-xs font-light text-purple-300">
-                      {planet.visitedPlanet.join(" • ")}
+                      {planet.visitedPlanet}
                     </span>
                   </div>
                 </div>
