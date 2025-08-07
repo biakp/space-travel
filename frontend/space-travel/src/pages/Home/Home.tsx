@@ -481,16 +481,15 @@ export const Home = () => {
                   }))
                 }
                 onEdit={() => {
-                  setOpenViewModal({
+                  setOpenViewModal((prevState) => ({
+                    ...prevState,
                     isShow: false,
-                    type: "view",
-                    data: null,
-                  });
-                  setOpenAddEditModal({
+                  }));
+                  setOpenAddEditModal((prevState) => ({
+                    ...prevState,
                     isShow: true,
                     type: "edit",
-                    data: openViewModal.data,
-                  });
+                  }));
                 }}
                 onDelete={() => deletePlanet(openViewModal.data)}
               />
