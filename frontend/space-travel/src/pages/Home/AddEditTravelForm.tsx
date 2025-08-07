@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import DateSelector from "../../components/Input/DateSelector";
 import ImageSelector from "../../components/Input/ImageSelector";
 import TextInput from "../../components/Input/TextInput";
@@ -29,6 +29,7 @@ const AddEditTravelForm = ({
   type,
   onClose,
   getAllPlanets,
+  travelInfo,
 }: AddEditTravelFormProps) => {
   const [title, setTitle] = useState<string>("");
   const [visitedPlanet, setVisitedPlanet] = useState<string>("");
@@ -37,7 +38,59 @@ const AddEditTravelForm = ({
   const [image, setImage] = useState<File | string | null>(null);
   const [error, setError] = useState<string>("");
 
-  const updatePlanet = async () => {};
+    // Use useEffect to populate form when travelInfo changes
+  useEffect(() => {
+    if (travelInfo && type === "edit") {
+      setTitle(travelInfo.title || "");
+      setVisitedPlanet(travelInfo.visitedPlanet || "");
+      setstory(travelInfo.story || "");
+      setVisitedDate(travelInfo.visitedDate ? new Date(travelInfo.visitedDate) : new Date());
+      setImage(travelInfo.imageUrl || null); // Set existing image URL
+    }
+  }, [travelInfo, type]);
+
+const updatePlanet = async () => {
+  try {
+    let imageUrl = "";
+
+    // Handle image upload only if it's a new file
+    if (image && typeof image !== "string") {
+      const imageUploadResponse = await uploadImage(image);
+      imageUrl = imageUploadResponse?.imageUrl || "";
+      console.log("Image uploaded successfully:", imageUrl);
+    } else if (typeof image === "string") {
+      // Keep existing image URL
+      imageUrl = image;
+    } else if (travelInfo?.imageUrl && typeof travelInfo.imageUrl === "string") {
+      // Fallback to original image URL if image state is null
+      imageUrl = travelInfo.imageUrl;
+    }
+
+    const response = await axiosInstance.put(`update-planet/${travelInfo?.id}`, {
+      title,
+      visitedPlanet,
+      story: story,
+      visitedDate: visitedDate.toISOString().split("T")[0],
+      imageUrl: imageUrl, // Remove the || "" which was causing empty strings
+    });
+    console.log("Planet updated successfully:", response.data);
+    getAllPlanets(); // Refresh the planet list after updating
+    onClose(); // Close the modal after successful update
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }
+  }
+};
+
 
   const addPlanet = async () => {
     try {

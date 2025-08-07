@@ -405,7 +405,7 @@ export const Home = () => {
               <div className="custom-scrollbar max-h-[60vh] overflow-y-auto px-8 py-6">
                 <AddEditTravelForm
                   type={openAddEditModal.type}
-                  travelInfo={openAddEditModal.data}
+                  travelInfo={openViewModal.data}
                   getAllPlanets={() => getAllPlanets()}
                   onClose={() =>
                     setOpenAddEditModal({
