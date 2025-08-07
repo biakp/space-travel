@@ -25,14 +25,20 @@ interface TravelCardProps {
   planet: PlanetProps;
   user: UserInfoProps;
   onUpdateFavorite: () => Promise<void>;
+  onClick: () => void;
 }
 
-function TravelCard({ planet, user, onUpdateFavorite }: TravelCardProps) {
+function TravelCard({
+  planet,
+  user,
+  onUpdateFavorite,
+  onClick,
+}: TravelCardProps) {
   return (
     <article
       className="group relative cursor-pointer transition-all duration-700 hover:scale-[1.02]"
       onClick={() => {
-        // TO-DO: Implement navigation to detailed view
+        onClick();
       }}
     >
       {/* Ambient glow */}

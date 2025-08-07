@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/Navbar";
 import TravelCard from "../../components/Card/TravelCard";
 import { ToastContainer, toast } from "react-toastify";
-import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
 import AddEditTravelForm from "./AddEditTravelForm";
+import ViewTravelDetails from "./ViewTravelDetails";
+import { MdAdd } from "react-icons/md";
 
 interface UserInfoProps {
   created_at: string;
@@ -35,6 +36,12 @@ interface ModalProps {
   data: PlanetProps | null;
 }
 
+interface viewModalProps {
+  isShow: boolean;
+  type: "view";
+  data: PlanetProps | null;
+}
+
 export const Home = () => {
   // State to hold user information
   const [userInfo, setUserInfo] = useState<UserInfoProps | null>(null);
@@ -42,6 +49,11 @@ export const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState<ModalProps>({
     isShow: false,
     type: "add",
+    data: null,
+  });
+  const [openViewModal, setOpenViewModal] = useState<viewModalProps>({
+    isShow: false,
+    type: "view",
     data: null,
   });
 
@@ -109,6 +121,29 @@ export const Home = () => {
           console.error("Bad request");
         } else {
           console.error("Error updating favorite", error.message);
+        }
+      }
+    }
+  };
+
+  // Function to delete a planet
+  const deletePlanet = async (planet: PlanetProps | null) => {
+    const planetId = planet?.id;
+    try {
+      // Make API call to delete the planet
+      const response = await axiosInstance.delete(`/delete-planet/${planetId}`);
+
+      if (response.data) {
+        toast.success("Planet Deleted Successfully");
+        setOpenViewModal((prevState) => ({ ...prevState, isShow: false }));
+        getAllPlanets();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 400) {
+          console.error("Bad request");
+        } else {
+          console.error("Error deleting planet", error.message);
         }
       }
     }
@@ -194,6 +229,13 @@ export const Home = () => {
                         planet={planet}
                         user={userInfo}
                         onUpdateFavorite={() => updateFavorite(planet)}
+                        onClick={() =>
+                          setOpenViewModal({
+                            isShow: true,
+                            type: "view",
+                            data: planet,
+                          })
+                        }
                       />
                     ))}
                   </div>
@@ -293,6 +335,7 @@ export const Home = () => {
           </div>
         </main>
 
+        {/* Modal for adding/editing travel logs */}
         <Modal
           isOpen={openAddEditModal.isShow}
           onRequestClose={() =>
@@ -407,6 +450,51 @@ export const Home = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </Modal>
+
+        {/* Modal to show travel details */}
+        <Modal
+          isOpen={openViewModal.isShow}
+          onRequestClose={() =>
+            setOpenViewModal({ isShow: false, type: "view", data: null })
+          }
+          ariaHideApp={false}
+          className="fixed inset-0 flex items-center justify-center p-4"
+          overlayClassName="fixed inset-0 bg-black/60 backdrop-blur-md z-[9999]"
+          style={{
+            overlay: { zIndex: 9999 },
+            content: { zIndex: 10000 },
+          }}
+        >
+          <div className="relative z-[10001] w-full max-w-2xl">
+            {/* Modal glow effect */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 blur-xl"></div>
+
+            {openViewModal.data && (
+              <ViewTravelDetails
+                planet={openViewModal.data}
+                onClose={() =>
+                  setOpenViewModal((prevState) => ({
+                    ...prevState,
+                    isShow: false,
+                  }))
+                }
+                onEdit={() => {
+                  setOpenViewModal({
+                    isShow: false,
+                    type: "view",
+                    data: null,
+                  });
+                  setOpenAddEditModal({
+                    isShow: true,
+                    type: "edit",
+                    data: openViewModal.data,
+                  });
+                }}
+                onDelete={() => deletePlanet(openViewModal.data)}
+              />
+            )}
           </div>
         </Modal>
 
