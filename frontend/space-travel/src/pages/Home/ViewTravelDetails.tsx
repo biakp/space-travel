@@ -54,7 +54,7 @@ const ViewTravelDetails = ({
             </button>
 
             <button
-              className="group flex cursor-pointer h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/60 transition-all duration-300 hover:scale-110 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
+              className="group flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/60 transition-all duration-300 hover:scale-110 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
               onClick={onClose}
             >
               <MdClose className="text-xl" />

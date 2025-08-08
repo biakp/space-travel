@@ -8,8 +8,11 @@ interface DateFilterProps {
 
 class DateFilterPlanetsService {
     async execute({ startDate, endDate, user }: DateFilterProps) {
-        const start = new Date(parseInt(startDate))
-        const end = new Date(parseInt(endDate))
+        const start = new Date(startDate)
+        const end = new Date(endDate)
+
+        // Add end of day to include the entire end date
+        end.setHours(23, 59, 59, 999)
 
         return await prismaClient.registeredPlanet.findMany({
             where: {

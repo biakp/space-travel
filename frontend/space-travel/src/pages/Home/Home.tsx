@@ -57,6 +57,8 @@ export const Home = () => {
     type: "view",
     data: null,
   });
+  const [filteredPlanets, setFilteredPlanets] = useState<PlanetProps[]>([]);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -150,6 +152,19 @@ export const Home = () => {
     }
   };
 
+  const handleFilteredPlanets = (planets: PlanetProps[]) => {
+    setFilteredPlanets(planets);
+    setIsFiltered(true);
+  };
+
+  const handleClearFilter = () => {
+    setFilteredPlanets([]);
+    setIsFiltered(false);
+  };
+
+  // Use filtered planets if available, otherwise use all planets
+  const planetsToDisplay = isFiltered ? filteredPlanets : userPlanets;
+
   // Function to show a notification
   const notify = () => toast("Updated favorites!");
 
@@ -224,7 +239,7 @@ export const Home = () => {
                     </p>
                   </div>
                   <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {userPlanets.map((planet) => (
+                    {planetsToDisplay.map((planet) => (
                       <TravelCard
                         key={planet.id}
                         planet={planet}
@@ -243,7 +258,12 @@ export const Home = () => {
                 </div>
               )}
             </section>
-            <Aside userInfo={userInfo} userPlanets={userPlanets} />
+            <Aside
+              userInfo={userInfo}
+              userPlanets={userPlanets}
+              onFilteredPlanets={handleFilteredPlanets}
+              onClearFilter={handleClearFilter}
+            />
           </div>
         </main>
 
