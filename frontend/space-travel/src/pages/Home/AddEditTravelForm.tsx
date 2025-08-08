@@ -192,6 +192,7 @@ const AddEditTravelForm = ({
         onChange={setstory}
         placeholder="Enter travel story"
         required
+        enableAI={true}
       />
       <DateSelector value={visitedDate} onChange={setVisitedDate} />
       <ImageSelector value={image} onChange={setImage} />
