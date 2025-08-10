@@ -212,18 +212,26 @@ export const Home = () => {
       <div className="relative z-10">
         <Navbar userInfo={userInfo} />
 
-        <main className="container mx-auto px-6 py-12">
-          <div className="flex gap-8">
-            <section className="flex-1">
+        <main className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
+            <aside className="lg:order-2">
+              <Aside
+                userInfo={userInfo}
+                userPlanets={userPlanets}
+                onFilteredPlanets={handleFilteredPlanets}
+                onClearFilter={handleClearFilter}
+              />
+            </aside>
+            <section className="flex-1 lg:order-1">
               {userPlanets.length === 0 || !userInfo ? (
-                <div className="flex h-64 items-center justify-center">
+                <div className="flex h-48 items-center justify-center sm:h-64">
                   <div className="relative text-center">
                     <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400/20 to-purple-400/20 blur-xl"></div>
-                    <div className="relative rounded-3xl border border-white/10 bg-white/5 p-12 backdrop-blur-xl">
-                      <h3 className="mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-2xl font-light text-transparent text-white/90">
+                    <div className="relative rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl sm:p-12">
+                      <h3 className="mb-2 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-xl font-light text-transparent sm:text-2xl">
                         Your Cosmic Journey Awaits
                       </h3>
-                      <p className="text-sm font-light text-white/60">
+                      <p className="text-xs font-light text-white/60 sm:text-sm">
                         Click the luminous button to begin exploring the
                         universe
                       </p>
@@ -231,17 +239,17 @@ export const Home = () => {
                   </div>
                 </div>
               ) : (
-                <div className="mb-8">
-                  <div className="mb-12 text-center">
-                    <h2 className="leading-16 mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-5xl font-extralight text-transparent">
+                <div className="mb-6 sm:mb-8">
+                  <div className="mb-8 text-center sm:mb-12">
+                    <h2 className="mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-3xl font-extralight leading-tight text-transparent sm:text-4xl lg:text-5xl">
                       Your Space Voyages
                     </h2>
-                    <div className="mx-auto mb-4 h-px w-32 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-                    <p className="font-light text-white/60">
+                    <div className="mx-auto mb-3 h-px w-24 bg-gradient-to-r from-transparent via-white/30 to-transparent sm:mb-4 sm:w-32"></div>
+                    <p className="text-sm font-light text-white/60 sm:text-base">
                       Navigate through memories of space and time
                     </p>
                   </div>
-                  <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:gap-8 xl:grid-cols-3">
                     {planetsToDisplay.map((planet) => (
                       <TravelCard
                         key={planet.id}
@@ -261,12 +269,6 @@ export const Home = () => {
                 </div>
               )}
             </section>
-            <Aside
-              userInfo={userInfo}
-              userPlanets={userPlanets}
-              onFilteredPlanets={handleFilteredPlanets}
-              onClearFilter={handleClearFilter}
-            />
           </div>
         </main>
 
@@ -436,7 +438,7 @@ export const Home = () => {
         </Modal>
 
         <button
-          className="group fixed bottom-8 right-8 h-16 w-16 cursor-pointer transition-all duration-500 hover:scale-110 focus:outline-none active:scale-95"
+          className="group fixed bottom-6 right-6 h-12 w-12 cursor-pointer transition-all duration-500 hover:scale-110 focus:outline-none active:scale-95 sm:bottom-8 sm:right-8 sm:h-16 sm:w-16"
           aria-label="Add New Travel"
           onClick={() => {
             setOpenAddEditModal({ isShow: true, type: "add", data: null });
@@ -445,7 +447,7 @@ export const Home = () => {
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 opacity-80 blur-lg transition-opacity duration-500 group-hover:opacity-100"></div>
           <div className="relative flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-2xl backdrop-blur-xl">
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-            <MdAdd className="relative z-10 text-2xl text-white transition-all duration-500 group-hover:rotate-180" />
+            <MdAdd className="relative z-10 text-xl text-white transition-all duration-500 group-hover:rotate-180 sm:text-2xl" />
           </div>
         </button>
 

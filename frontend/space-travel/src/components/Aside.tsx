@@ -92,24 +92,24 @@ export function Aside({
   };
 
   return (
-    <aside className="w-80 flex-shrink-0">
-      <div className="relative space-y-6">
+    <aside className="w-full lg:w-80 lg:flex-shrink-0">
+      <div className="relative space-y-4 sm:space-y-6">
         {/* Profile Section */}
         <div className="relative">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/10 via-purple-400/5 to-pink-400/10 blur-xl"></div>
-          <div className="relative rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
-            <h2 className="mb-8 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-xl font-extralight text-transparent">
+          <div className="relative rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+            <h2 className="mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-lg font-extralight text-transparent sm:mb-8 sm:text-xl">
               Explorer Profile
             </h2>
             {userInfo ? (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <div className="group relative">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/20 to-blue-400/20 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100"></div>
-                  <div className="relative rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                    <p className="mb-3 text-xs font-light uppercase tracking-widest text-cyan-300/80">
+                  <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md sm:p-5">
+                    <p className="mb-2 text-xs font-light uppercase tracking-widest text-cyan-300/80 sm:mb-3">
                       Full Name
                     </p>
-                    <p className="text-lg font-light text-white/90">
+                    <p className="text-base font-light text-white/90 sm:text-lg">
                       {userInfo.fullName}
                     </p>
                   </div>
@@ -117,11 +117,11 @@ export function Aside({
 
                 <div className="group relative">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400/20 to-pink-400/20 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100"></div>
-                  <div className="relative rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                    <p className="mb-3 text-xs font-light uppercase tracking-widest text-purple-300/80">
+                  <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md sm:p-5">
+                    <p className="mb-2 text-xs font-light uppercase tracking-widest text-purple-300/80 sm:mb-3">
                       E-mail
                     </p>
-                    <p className="break-words font-mono text-sm font-light text-white/80">
+                    <p className="break-words font-mono text-xs font-light text-white/80 sm:text-sm">
                       {userInfo.email}
                     </p>
                   </div>
@@ -129,22 +129,22 @@ export function Aside({
 
                 <div className="group relative">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-400/20 to-cyan-400/20 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100"></div>
-                  <div className="relative rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                    <p className="mb-3 text-xs font-light uppercase tracking-widest text-pink-300/80">
+                  <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md sm:p-5">
+                    <p className="mb-2 text-xs font-light uppercase tracking-widest text-pink-300/80 sm:mb-3">
                       Created At
                     </p>
-                    <p className="font-light text-white/90">
+                    <p className="text-base font-light text-white/90 sm:text-lg">
                       {new Date(userInfo.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
 
                 {/* Holographic Stats */}
-                <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4">
                   <div className="group relative">
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-400/20 opacity-50 blur"></div>
-                    <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-xl">
-                      <div className="mb-1 text-3xl font-extralight text-cyan-400">
+                    <div className="relative rounded-2xl border border-white/10 bg-white/5 p-3 text-center backdrop-blur-xl sm:p-4">
+                      <div className="mb-1 text-2xl font-extralight text-cyan-400 sm:text-3xl">
                         {userPlanets.length}
                       </div>
                       <div className="text-xs font-light uppercase tracking-wider text-white/60">
@@ -154,8 +154,8 @@ export function Aside({
                   </div>
                   <div className="group relative">
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-400/20 to-pink-400/20 opacity-50 blur"></div>
-                    <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-xl">
-                      <div className="mb-1 text-3xl font-extralight text-pink-400">
+                    <div className="relative rounded-2xl border border-white/10 bg-white/5 p-3 text-center backdrop-blur-xl sm:p-4">
+                      <div className="mb-1 text-2xl font-extralight text-pink-400 sm:text-3xl">
                         {userPlanets.filter((p) => p.isFavorite).length}
                       </div>
                       <div className="text-xs font-light uppercase tracking-wider text-white/60">
@@ -186,20 +186,20 @@ export function Aside({
         {/* Date Filter Section */}
         <div className="relative">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-400/10 via-yellow-400/5 to-red-400/10 blur-xl"></div>
-          <div className="relative rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
-            <div className="mb-6 flex items-center gap-3">
-              <MdDateRange className="text-2xl text-orange-400" />
-              <h2 className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-xl font-extralight text-transparent">
+          <div className="relative rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+            <div className="mb-4 flex items-center gap-3 sm:mb-6">
+              <MdDateRange className="text-xl text-orange-400 sm:text-2xl" />
+              <h2 className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-lg font-extralight text-transparent sm:text-xl">
                 Date Filter
               </h2>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Start Date */}
               <div className="group relative">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400/20 to-yellow-400/20 opacity-0 blur transition-opacity duration-500 group-focus-within:opacity-100"></div>
-                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-                  <label className="mb-2 block text-xs font-light uppercase tracking-widest text-orange-300/80">
+                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-md sm:p-4">
+                  <label className="mb-1.5 block text-xs font-light uppercase tracking-widest text-orange-300/80 sm:mb-2">
                     Start Date
                   </label>
                   <input
@@ -207,7 +207,7 @@ export function Aside({
                     value={startDate}
                     max={endDate || undefined}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full bg-transparent text-white/90 focus:outline-none"
+                    className="w-full bg-transparent text-sm text-white/90 focus:outline-none sm:text-base"
                   />
                 </div>
               </div>
@@ -215,8 +215,8 @@ export function Aside({
               {/* End Date */}
               <div className="group relative">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400/20 to-red-400/20 opacity-0 blur transition-opacity duration-500 group-focus-within:opacity-100"></div>
-                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-                  <label className="mb-2 block text-xs font-light uppercase tracking-widest text-yellow-300/80">
+                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-md sm:p-4">
+                  <label className="mb-1.5 block text-xs font-light uppercase tracking-widest text-yellow-300/80 sm:mb-2">
                     End Date
                   </label>
                   <input
@@ -224,7 +224,7 @@ export function Aside({
                     value={endDate}
                     min={startDate || undefined}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full bg-transparent text-white/90 focus:outline-none"
+                    className="w-full bg-transparent text-sm text-white/90 focus:outline-none sm:text-base"
                   />
                 </div>
               </div>
@@ -242,25 +242,27 @@ export function Aside({
               )}
 
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
                 <button
+                  type="button"
                   onClick={handleDateFilter}
                   disabled={isFiltering}
                   aria-label="Filter by date"
-                  className="group flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-orange-400/30 bg-gradient-to-r from-orange-400/10 to-yellow-400/10 px-4 py-3 font-light text-orange-300 transition-all duration-300 hover:scale-105 hover:border-orange-400/50 hover:from-orange-400/20 hover:to-yellow-400/20 hover:text-orange-200 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="group flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-orange-400/30 bg-gradient-to-r from-orange-400/10 to-yellow-400/10 px-3 py-2.5 font-light text-orange-300 transition-all duration-300 hover:scale-105 hover:border-orange-400/50 hover:from-orange-400/20 hover:to-yellow-400/20 hover:text-orange-200 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 sm:px-4 sm:py-3"
                 >
-                  <MdFilterAlt className="text-lg" />
-                  <span className="text-sm">
+                  <MdFilterAlt className="text-base sm:text-lg" />
+                  <span className="text-xs sm:text-sm">
                     {isFiltering ? "FILTERING..." : "FILTER"}
                   </span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={handleClearFilter}
                   aria-label="Clear date filter"
-                  className="group flex cursor-pointer items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white/60 transition-all duration-300 hover:scale-105 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
+                  className="group flex cursor-pointer items-center justify-center rounded-xl border border-white/20 bg-white/5 px-3 py-2.5 text-white/60 transition-all duration-300 hover:scale-105 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95 sm:px-4 sm:py-3"
                 >
-                  <span className="text-sm">CLEAR</span>
+                  <span className="text-xs sm:text-sm">CLEAR</span>
                 </button>
               </div>
             </div>

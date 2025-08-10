@@ -52,7 +52,7 @@ function TravelCard({
             alt={planet.title || "Space Travel"}
             loading="lazy"
             decoding="async"
-            className="h-56 w-full object-cover transition-all duration-1000 group-hover:scale-105"
+            className="h-40 w-full object-cover transition-all duration-1000 group-hover:scale-105 sm:h-48 lg:h-56"
           />
           {/* Liquid glass overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -64,7 +64,7 @@ function TravelCard({
 
         {/* Floating favorite button */}
         <button
-          className="group/fav absolute right-4 top-4 z-20 h-10 w-10 cursor-pointer"
+          className="group/fav absolute right-3 top-3 z-20 h-8 w-8 cursor-pointer sm:right-4 sm:top-4 sm:h-10 sm:w-10"
           aria-label="Add to Favorites"
           onClick={(e) => {
             e.stopPropagation();
@@ -74,48 +74,47 @@ function TravelCard({
           <div className="absolute inset-0 rounded-full border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300 group-hover/fav:scale-110"></div>
           <div className="relative flex h-full w-full items-center justify-center">
             <FaStar
-              size={20}
-              className={`${planet.isFavorite ? "text-yellow-400" : "text-white/60"} text-sm transition-all duration-300 hover:text-yellow-400 group-hover:scale-110`}
+              size={16}
+              className={`${planet.isFavorite ? "text-yellow-400" : "text-white/60"} text-sm transition-all duration-300 hover:text-yellow-400 group-hover:scale-110 sm:text-base`}
               title="Add to Favorites"
               aria-label="Add to Favorites"
             />
           </div>
         </button>
 
-        <div className="space-y-4 p-6">
-          <header className="space-y-4">
-            <h6 className="bg-gradient-to-r from-cyan-400 via-white to-purple-400 bg-clip-text text-2xl font-extralight leading-tight text-transparent">
+        <div className="space-y-3 p-4 sm:space-y-4 sm:p-6">
+          <header className="space-y-3 sm:space-y-4">
+            <h6 className="bg-gradient-to-r from-cyan-400 via-white to-purple-400 bg-clip-text text-lg font-extralight leading-tight text-transparent sm:text-xl lg:text-2xl">
               {planet.title}
             </h6>
 
-            <div className="flex items-center justify-between">
-              <div className="relative">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/20 to-blue-400/20 blur"></div>
-                <span className="relative rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-light text-cyan-300 backdrop-blur-md">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="relative order-2 sm:order-1">
+                <span className="relative rounded-full border border-cyan-400/30 bg-gradient-to-r from-cyan-400/10 to-blue-400/10 px-3 py-1.5 text-xs font-light text-cyan-300 backdrop-blur-md sm:px-4 sm:py-2">
                   {user.fullName}
                 </span>
               </div>
-              <span className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-light text-white/70 backdrop-blur-md">
+              <span className="order-1 self-start rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-light text-white/70 backdrop-blur-md sm:order-2 sm:px-3">
                 {new Date(planet.visitedDate).toLocaleDateString()}
               </span>
             </div>
           </header>
 
           <div className="relative">
-            <p className="line-clamp-2 text-sm font-light leading-relaxed text-white/70">
+            <p className="line-clamp-2 text-xs font-light leading-relaxed text-white/70 sm:text-sm">
               {planet.story ||
                 "A mesmerizing journey through the cosmic unknown, where reality bends and dimensions converge."}
             </p>
           </div>
 
-          <div className="border-t border-white/10 pt-4">
+          <div className="border-t border-white/10 pt-3 sm:pt-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <div className="relative">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400/20 to-pink-400/20 blur"></div>
-                  <div className="relative flex items-center space-x-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-md">
-                    <GrMapLocation className="text-xs text-purple-400" />
-                    <span className="text-xs font-light text-purple-300">
+                  <div className="relative flex items-center space-x-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5 backdrop-blur-md sm:space-x-2 sm:px-3 sm:py-2">
+                    <GrMapLocation className="text-xs text-purple-400 sm:text-sm" />
+                    <span className="text-xs font-light text-purple-300 sm:text-xs">
                       {planet.visitedPlanet}
                     </span>
                   </div>

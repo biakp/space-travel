@@ -16,17 +16,17 @@ interface ProfileInfoProps {
 
 function ProfileInfo({ userInfo, onLogout }: ProfileInfoProps) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3 sm:gap-4">
       <div className="relative">
         {/* Glow effect */}
         <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-30 blur"></div>
-        <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 font-bold text-white shadow-xl ring-2 ring-white/20">
+        <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-xs font-bold text-white shadow-xl ring-2 ring-white/20 sm:h-14 sm:w-14 sm:text-base">
           {getInitials(userInfo.fullName)}
         </div>
       </div>
 
       <div className="flex flex-col">
-        <p className="max-w-[140px] truncate text-sm font-bold text-white">
+        <p className="max-w-[100px] truncate text-xs font-bold text-white sm:max-w-[140px] sm:text-sm">
           {userInfo.fullName || "Space Explorer"}
         </p>
         <p className="text-xs text-blue-300/80">Commander</p>
