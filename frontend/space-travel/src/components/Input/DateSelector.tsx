@@ -26,8 +26,8 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
   };
 
   return (
-    <div className="group relative mt-6">
-      <label className="mb-2 block text-sm font-light uppercase tracking-widest text-purple-300/80">
+    <div className="group relative mt-4 sm:mt-6">
+      <label className="mb-1.5 block text-xs font-light uppercase tracking-widest text-purple-300/80 sm:mb-2 sm:text-sm">
         Visited Date: <span className="text-red-400">*</span>
       </label>
       <div className="relative">
@@ -36,7 +36,7 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
           type="date"
           value={formatDateForInput(value)}
           onChange={handleDateChange}
-          className={`relative w-full rounded-2xl border bg-white/5 px-4 py-3 text-white backdrop-blur-md transition-all duration-300 focus:border-purple-400/30 focus:bg-white/10 focus:outline-none`}
+          className={`relative w-full rounded-2xl border bg-white/5 px-3 py-2.5 text-sm text-white backdrop-blur-md transition-all duration-300 focus:border-purple-400/30 focus:bg-white/10 focus:outline-none sm:px-4 sm:py-3 sm:text-base`}
         />
       </div>
     </div>

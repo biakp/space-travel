@@ -31,11 +31,11 @@ const ImageSelector = ({ value, onChange }: ImageSelectorProps) => {
     if (typeof value === "string") {
       // Existing image URL
       return (
-        <div className="mb-4">
+        <div className="mb-3 sm:mb-4">
           <img
             src={value}
             alt="Current image"
-            className="mx-auto h-20 w-20 rounded-lg object-cover"
+            className="mx-auto h-16 w-16 rounded-lg object-cover sm:h-20 sm:w-20"
           />
         </div>
       );
@@ -45,11 +45,11 @@ const ImageSelector = ({ value, onChange }: ImageSelectorProps) => {
       // New file upload
       const imageUrl = URL.createObjectURL(value);
       return (
-        <div className="mb-4">
+        <div className="mb-3 sm:mb-4">
           <img
             src={imageUrl}
             alt="Selected image"
-            className="mx-auto h-20 w-20 rounded-lg object-cover"
+            className="mx-auto h-16 w-16 rounded-lg object-cover sm:h-20 sm:w-20"
           />
         </div>
       );
@@ -59,21 +59,21 @@ const ImageSelector = ({ value, onChange }: ImageSelectorProps) => {
   };
 
   return (
-    <div className="group relative mt-6">
-      <label className="mb-2 block text-sm font-light uppercase tracking-widest text-emerald-300/80">
+    <div className="group relative mt-4 sm:mt-6">
+      <label className="mb-1.5 block text-xs font-light uppercase tracking-widest text-emerald-300/80 sm:mb-2 sm:text-sm">
         Upload Image <span className="text-red-400">*</span>
       </label>
       <div className="relative">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400/10 to-cyan-400/10 opacity-0 blur transition-opacity duration-500 group-hover:opacity-100"></div>
         <label
-          className={`relative block cursor-pointer rounded-2xl border-2 border-dashed bg-white/5 p-8 text-center backdrop-blur-md transition-colors duration-300 hover:border-emerald-400/30`}
+          className={`relative block cursor-pointer rounded-2xl border-2 border-dashed bg-white/5 p-4 text-center backdrop-blur-md transition-colors duration-300 hover:border-emerald-400/30 sm:p-6 lg:p-8`}
         >
           {value ? (
             showImagePreview()
           ) : (
-            <div className="mb-4">
+            <div className="mb-3 sm:mb-4">
               <svg
-                className="mx-auto h-12 w-12 text-white/40"
+                className="mx-auto h-8 w-8 text-white/40 sm:h-10 sm:w-10 lg:h-12 lg:w-12"
                 stroke="currentColor"
                 fill="none"
                 viewBox="0 0 48 48"
@@ -87,8 +87,8 @@ const ImageSelector = ({ value, onChange }: ImageSelectorProps) => {
               </svg>
             </div>
           )}
-          <p className="mb-2 font-light text-white/60">{getDisplayText()}</p>
-          <p className="text-sm text-white/40">
+          <p className="mb-1.5 text-sm font-light text-white/60 sm:mb-2 sm:text-base">{getDisplayText()}</p>
+          <p className="text-xs text-white/40 sm:text-sm">
             {value ? "Click to change image" : "PNG, JPG up to 10MB"}
           </p>
           <input

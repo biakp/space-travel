@@ -199,10 +199,10 @@ const AddEditTravelForm = ({
 
       {/* Add error display */}
       {error && (
-        <div className="relative mt-4">
+        <div className="relative mt-3 sm:mt-4">
           <div className="absolute inset-0 rounded-2xl bg-red-500/10 blur"></div>
           <div className="relative rounded-2xl border border-red-400/20 bg-red-500/5 p-3 backdrop-blur-md">
-            <span className="text-sm font-light text-red-300">{error}</span>
+            <span className="text-xs font-light text-red-300 sm:text-sm">{error}</span>
           </div>
         </div>
       )}
