@@ -30,6 +30,7 @@ export const PasswordInput = ({
       <button
         type="button"
         className="absolute right-4 top-1/2 -translate-y-1/2 transform text-white/60 transition-colors duration-200 hover:text-white"
+        aria-label={isShowPassword ? "Hide password" : "Show password"}
         onClick={toggleShowPassword}
       >
         {isShowPassword ? <FaRegEyeSlash size={16} /> : <FaRegEye size={16} />}

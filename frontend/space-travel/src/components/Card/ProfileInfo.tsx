@@ -32,6 +32,7 @@ function ProfileInfo({ userInfo, onLogout }: ProfileInfoProps) {
         <p className="text-xs text-blue-300/80">Commander</p>
         <button
           className="mt-1 cursor-pointer text-left text-xs font-medium text-purple-300 transition-all duration-200 hover:text-pink-300 hover:underline"
+          aria-label="Sign out"
           onClick={onLogout}
         >
           Sign Out

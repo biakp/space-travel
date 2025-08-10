@@ -39,6 +39,7 @@ const ViewTravelDetails = ({
           <div className="flex items-center gap-3">
             <button
               className="group flex cursor-pointer items-center gap-2 rounded-xl border border-cyan-400/30 bg-gradient-to-r from-cyan-400/10 to-cyan-500/10 px-4 py-2 font-light text-cyan-300 transition-all duration-300 hover:scale-105 hover:border-cyan-400/50 hover:from-cyan-400/20 hover:to-cyan-500/20 hover:text-cyan-200 active:scale-95"
+              aria-label="Update Travel Story"
               onClick={onEdit}
             >
               <MdUpdate className="text-lg" />
@@ -47,6 +48,7 @@ const ViewTravelDetails = ({
 
             <button
               className="group flex cursor-pointer items-center gap-2 rounded-xl border border-red-400/30 bg-gradient-to-r from-red-400/10 to-red-500/10 px-4 py-2 font-light text-red-300 transition-all duration-300 hover:scale-105 hover:border-red-400/50 hover:from-red-400/20 hover:to-red-500/20 hover:text-red-200 active:scale-95"
+              aria-label="Delete Travel Story"
               onClick={onDelete}
             >
               <MdDelete className="text-lg" />
@@ -55,6 +57,7 @@ const ViewTravelDetails = ({
 
             <button
               className="group flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/60 transition-all duration-300 hover:scale-110 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
+              aria-label="Close details"
               onClick={onClose}
             >
               <MdClose className="text-xl" />

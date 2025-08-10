@@ -48,8 +48,10 @@ function TravelCard({
         {/* Image container with liquid overlay */}
         <div className="relative overflow-hidden">
           <img
-            src={planet.imageUrl || "../public/images/fallback.jpg"}
-            alt="Space Travel"
+            src={planet.imageUrl || "/images/fallback.jpg"} // Vite serves from public at root
+            alt={planet.title || "Space Travel"}
+            loading="lazy"
+            decoding="async"
             className="h-56 w-full object-cover transition-all duration-1000 group-hover:scale-105"
           />
           {/* Liquid glass overlay */}
@@ -63,6 +65,7 @@ function TravelCard({
         {/* Floating favorite button */}
         <button
           className="group/fav absolute right-4 top-4 z-20 h-10 w-10 cursor-pointer"
+          aria-label="Add to Favorites"
           onClick={(e) => {
             e.stopPropagation();
             onUpdateFavorite();

@@ -205,6 +205,7 @@ export function Aside({
                   <input
                     type="date"
                     value={startDate}
+                    max={endDate || undefined}
                     onChange={(e) => setStartDate(e.target.value)}
                     className="w-full bg-transparent text-white/90 focus:outline-none"
                   />
@@ -221,6 +222,7 @@ export function Aside({
                   <input
                     type="date"
                     value={endDate}
+                    min={startDate || undefined}
                     onChange={(e) => setEndDate(e.target.value)}
                     className="w-full bg-transparent text-white/90 focus:outline-none"
                   />
@@ -244,6 +246,7 @@ export function Aside({
                 <button
                   onClick={handleDateFilter}
                   disabled={isFiltering}
+                  aria-label="Filter by date"
                   className="group flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-orange-400/30 bg-gradient-to-r from-orange-400/10 to-yellow-400/10 px-4 py-3 font-light text-orange-300 transition-all duration-300 hover:scale-105 hover:border-orange-400/50 hover:from-orange-400/20 hover:to-yellow-400/20 hover:text-orange-200 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <MdFilterAlt className="text-lg" />
@@ -254,6 +257,7 @@ export function Aside({
 
                 <button
                   onClick={handleClearFilter}
+                  aria-label="Clear date filter"
                   className="group flex cursor-pointer items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white/60 transition-all duration-300 hover:scale-105 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-95"
                 >
                   <span className="text-sm">CLEAR</span>

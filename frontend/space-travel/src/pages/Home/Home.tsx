@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -163,7 +163,10 @@ export const Home = () => {
   };
 
   // Use filtered planets if available, otherwise use all planets
-  const planetsToDisplay = isFiltered ? filteredPlanets : userPlanets;
+  const planetsToDisplay = useMemo(
+    () => (isFiltered ? filteredPlanets : userPlanets),
+    [isFiltered, filteredPlanets, userPlanets],
+  );
 
   // Function to show a notification
   const notify = () => toast("Updated favorites!");
@@ -304,6 +307,7 @@ export const Home = () => {
 
                   {/* Close button */}
                   <button
+                    aria-label="Close details"
                     onClick={() =>
                       setOpenAddEditModal({
                         isShow: false,
@@ -353,6 +357,7 @@ export const Home = () => {
               <div className="from-white/2 border-t border-white/10 bg-gradient-to-r to-white/5 px-8 py-6">
                 <div className="flex items-center justify-end space-x-4">
                   <button
+                    aria-label="Cancel Mission"
                     onClick={() =>
                       setOpenAddEditModal({
                         isShow: false,
@@ -368,6 +373,7 @@ export const Home = () => {
 
                   <button
                     type="submit"
+                    aria-label="Submit Travel Form"
                     form="travel-form"
                     className="group relative cursor-pointer px-8 py-3 font-light text-white transition-all duration-500 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
                   >
@@ -431,6 +437,7 @@ export const Home = () => {
 
         <button
           className="group fixed bottom-8 right-8 h-16 w-16 cursor-pointer transition-all duration-500 hover:scale-110 focus:outline-none active:scale-95"
+          aria-label="Add New Travel"
           onClick={() => {
             setOpenAddEditModal({ isShow: true, type: "add", data: null });
           }}

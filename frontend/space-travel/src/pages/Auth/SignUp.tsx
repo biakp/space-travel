@@ -89,6 +89,7 @@ export const SignUp = () => {
                   Already exploring?
                 </span>
                 <button
+                  aria-label="Log In"
                   onClick={() => navigate("/login")}
                   className="group relative cursor-pointer px-4 py-2 font-light text-cyan-400 transition-all duration-300 hover:text-white"
                 >
@@ -267,6 +268,7 @@ export const SignUp = () => {
 
               <button
                 type="submit"
+                aria-label="Sign Up"
                 className="group relative w-full cursor-pointer py-4 font-light text-white transition-all duration-500 hover:scale-[1.02]"
               >
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-80 transition-opacity duration-300 group-hover:opacity-100"></div>

@@ -45,17 +45,6 @@ export function Navbar({ userInfo }: NavbarProps) {
 
         {showProfileInfo && (
           <div className="flex items-center space-x-6">
-            <div className="hidden items-center space-x-4 lg:flex">
-              <button className="group relative cursor-pointer px-6 py-2 font-light text-white/70 transition-all duration-300 hover:text-white">
-                <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100"></div>
-                <span className="relative text-sm">Dashboard</span>
-              </button>
-              <button className="group relative cursor-pointer px-6 py-2 font-light text-white/70 transition-all duration-300 hover:text-white">
-                <div className="absolute inset-0 rounded-full border border-white/10 bg-white/5 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100"></div>
-                <span className="relative text-sm">Favorites</span>
-              </button>
-            </div>
-
             <div className="relative">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/10 to-purple-400/10 blur"></div>
               <div className="relative rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-xl">
